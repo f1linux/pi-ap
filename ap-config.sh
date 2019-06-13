@@ -39,10 +39,10 @@ source "${BASH_SOURCE%/*}/functions.sh"
 zcat /usr/share/doc/hostapd/examples/hostapd.conf.gz > /etc/hostapd/hostapd.conf
 
 # Persistently modify key directives in /etc/hostapd/hostapd.conf with sed
-sed -i "s/^interface=.*/interface=$APINTERFACE/" /etc/hostapd/hostapd.conf
+sed -i "s/^interface=.*/interface=$INTERFACEAP/" /etc/hostapd/hostapd.conf
 sed -i "s/# driver=hostap/driver=nl80211/" /etc/hostapd/hostapd.conf
 sed -i "s/channel=.*/channel=$CHANNEL/" /etc/hostapd/hostapd.conf
-sed -i "s/macaddr_acl=0/macaddr_acl=1/" /etc/hostapd/hostapd.conf
+sed -i "s/macaddr_acl=0/macaddr_acl=$MACADDRACL/" /etc/hostapd/hostapd.conf
 sed -i "s/#accept_mac_file=\/etc\/hostapd.accept/#accept_mac_file=\/etc\/hostapd\/hostapd.accept/" /etc/hostapd/hostapd.conf
 sed -i "s/#ieee80211d=1/ieee80211d=1/" /etc/hostapd/hostapd.conf
 sed -i "s/ssid=test/ssid=$SSIDNAME/" /etc/hostapd/hostapd.conf
@@ -77,8 +77,7 @@ sed -i "s/REGDOMAIN=/REGDOMAIN=$WIFIREGULATORYDOMAIN/" /etc/default/crda
 
 
 ### DNSMASQ Configuration:
-sed -i "s/#interface=/interface=$APINTERFACE/" /etc/dnsmasq.conf
-#sed -i "s/#dhcp-range=192.168.*,192.168.*,.*h/dhcp-range=192.168.0.50,192.168.0.150,12h/" /etc/dnsmasq.conf
+sed -i "s/#interface=/interface=$INTERFACEDNSMASQ/" /etc/dnsmasq.conf
 sed -i "s/#dhcp-range=192.168.*,192.168.*,.*h/dhcp-range=$DHCPRANGE,$DHCPLEASETIMEHOURSh/" /etc/dnsmasq.conf
 
 if [[ $(systemctl list-unit-files|grep dnsmasq|awk '{print $2}') != 'enabled' ]]; then
@@ -95,8 +94,8 @@ fi
 
 ### DHCPCD Configuration:
 
-sed -i "s/#interface eth0/interface $APINTERFACE/" /etc/dhcpcd.conf
-sed -i "s/#static ip_address=192.168.*/static ip_address=$IPV4SERVERIPINT1\/$NETMASK/" /etc/dhcpcd.conf
+sed -i "s/#interface eth0/interface $INTERFACEAP/" /etc/dhcpcd.conf
+sed -i "s/#static ip_address=192.168.*/static ip_address=$IPV4IPETHO/" /etc/dhcpcd.conf
 sed -i "s/#static routers=192.168.*/static routers=$ROUTER/" /etc/dhcpcd.conf
 
 echo '' >> /etc/dhcpcd.conf
@@ -110,4 +109,3 @@ systemctl restart networking.service
 # After all the fundamental config has been accomplished we finally restart hostapd:
 # The required masquerading will be configured in the firewall section
 systemctl start hostapd
-
