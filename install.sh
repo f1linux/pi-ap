@@ -50,9 +50,9 @@ echo
 echo "$(tput setaf 5)****** FireWall Config: ******$(tput sgr 0)"
 echo
 
-./firewall_ipv4.sh
-./firewall_ipv6.sh
-./firewall_Default-Policies.sh
+./firewall_Default-Policies.sh 2>> $PATHLOGSCRIPTS/install.log
+./firewall_ipv4.sh 2>> $PATHLOGSCRIPTS/install.log
+./firewall_ipv6.sh 2>> $PATHLOGSCRIPTS/install.log
 
 echo "$(tput setaf 4)Load UFW Firewall Changes$(tput sgr 0)"
 echo "y" | ufw disable
