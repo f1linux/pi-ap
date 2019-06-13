@@ -23,11 +23,11 @@ IPV6=yes
 
 # Set the default input policy to ACCEPT, DROP, or REJECT. Please note that if
 # you change this you will most likely want to adjust your rules.
-DEFAULT_INPUT_POLICY="DROP"
+DEFAULT_INPUT_POLICY="ACCEPT"
 
 # Set the default output policy to ACCEPT, DROP, or REJECT. Please note that if
 # you change this you will most likely want to adjust your rules.
-DEFAULT_OUTPUT_POLICY="DROP"
+DEFAULT_OUTPUT_POLICY="ACCEPT"
 
 # Set the default forward policy to ACCEPT, DROP or REJECT.  Please note that
 # if you change this you will most likely want to adjust your rules

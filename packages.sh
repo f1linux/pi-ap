@@ -67,10 +67,22 @@ done
 
 
 echo
+echo "Updating the $(tput setaf 3)apt-file$(tput sgr 0) DB:"
+echo
+# Update apt-file DB with new packages installed so they can be searched with this utility:
+$(command -v apt-file) update
+
+echo "Updating the $(tput setaf 6)locate$(tput sgr 0) DB"
+
+# Populate the *locate* DB:
+$(command -v updatedb)
+echo
+
+
+
+echo
 echo "$(tput setaf 5)******  Set Default Package Preferences:  ******$(tput sgr 0)"
 echo
 
 
 update-alternatives --set editor /usr/bin/vim.basic
-
-
