@@ -10,6 +10,18 @@ source "${BASH_SOURCE%/*}/variables.sh"
 source "${BASH_SOURCE%/*}/functions.sh"
 
 
+# Append the NAT table to the bottom of /etc/ufw/before.rules
+# Masquerading is done here:
+echo "*nat" >> /etc/ufw/before.rules
+echo ":POSTROUTING ACCEPT [0:0]" >> /etc/ufw/before.rules
+
+echo "-A POSTROUTING -s $IPV4IPWLAN0 -o $INTERFACEAP -j MASQUERADE" >> /etc/ufw/before.rules
+echo "">> /etc/ufw/before.rules
+echo "COMMIT" >> /etc/ufw/before.rules
+EOF
+
+
+
 rm /etc/ufw/user.rules
 
 cat <<EOF> /etc/ufw/user.rules
@@ -21,7 +33,7 @@ cat <<EOF> /etc/ufw/user.rules
 :POSTROUTING ACCEPT [0:0]
 
 # Config Masquerading on the AP interface
--A POSTROUTING -s $SUBNETDHCP/$NETMASKDHCP -o $APINTERFACE -j MASQUERADE
+-A POSTROUTING -s $IPV4IPWLAN0 -o $INTERFACEAP -j MASQUERADE
 
 # Don't delete 'COMMIT' line or NAT table rules will not be processed
 COMMIT
@@ -105,4 +117,3 @@ COMMIT
 ### END RATE LIMITING ###
 COMMIT
 EOF
-
