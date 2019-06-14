@@ -12,13 +12,11 @@ OURDOMAIN='f1linux.com'
 MACADDRACL='0'
 
 
-# Used in dhcpcd.conf
-ROUTER='192.168.3.62'
-# dhcpcd.conf default: 12h
+# dhcpcd.conf variables
+# default: 12h
 DHCPLEASETIMEHOURS='12'
 
 # dhcpcd.conf default: 192.168.0.50,192.168.0.150
-# .1-.14 is a /28 mask
 DHCPRANGE='192.168.0.1,192.168.0.14'
 
 ### AP Variables:
@@ -46,6 +44,7 @@ PATHSCRIPTS="/home/$(echo $USEREXECUTINGSCRIPT)/$(echo $REPONAME)"
 PATHLOGSCRIPTS="/home/$(echo $USEREXECUTINGSCRIPT)/$(echo $REPONAME)/logs"
 
 # Below sifts IP address for eth0 and strips trailing mask off end:
+IPV4ROUTER=$(ip route list | grep -E '^default'| grep wlan0 | awk '{print $3}')
 IPV4IPETH0="$(ip addr list|grep eth0|awk 'FNR==2'| awk '{print $2}')"
 IPV4IPWLAN0="$(ip addr list|grep wlan0|awk 'FNR==2'| awk '{print $2}')"
 IPV6IPWLA0="$(ip -6 addr|awk '{print $2}'|grep -P '^(?!fe80)[[:alnum:]]{4}:.*/64'|cut -d '/' -f1)"

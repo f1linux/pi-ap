@@ -77,8 +77,8 @@ sed -i "s/REGDOMAIN=/REGDOMAIN=$WIFIREGULATORYDOMAIN/" /etc/default/crda
 
 
 ### DNSMASQ Configuration:
-sed -i "s/#interface=/interface=$INTERFACEDNSMASQ/" /etc/dnsmasq.conf
-sed -i "s/#dhcp-range=192.168.*,192.168.*,.*h/dhcp-range=$DHCPRANGE,$DHCPLEASETIMEHOURSh/" /etc/dnsmasq.conf
+sed -i "s/#interface=/interface=$INTERFACEAP/" /etc/dnsmasq.conf
+sed -i "s/#dhcp-range=192.168.*,192.168.*,.*h/dhcp-range=$DHCPRANGE,$DHCPLEASETIMEHOURS\h/" /etc/dnsmasq.conf
 
 if [[ $(systemctl list-unit-files|grep dnsmasq|awk '{print $2}') != 'enabled' ]]; then
 	systemctl enable dnsmasq
@@ -95,8 +95,8 @@ fi
 ### DHCPCD Configuration:
 
 sed -i "s/#interface eth0/interface $INTERFACEAP/" /etc/dhcpcd.conf
-sed -i "s/#static ip_address=192.168.*/static ip_address=$IPV4IPETHO/" /etc/dhcpcd.conf
-sed -i "s/#static routers=192.168.*/static routers=$ROUTER/" /etc/dhcpcd.conf
+sed -i "s/#static ip_address=192.168.*/static ip_address=$IPV4IPWLAN0/" /etc/dhcpcd.conf
+sed -i "s/#static routers=192.168.*/static routers=$IPV4ROUTER/" /etc/dhcpcd.conf
 
 echo '' >> /etc/dhcpcd.conf
 echo "nohook wpa_supplicant" >> /etc/dhcpcd.conf

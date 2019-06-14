@@ -14,8 +14,8 @@ source "${BASH_SOURCE%/*}/functions.sh"
 
 if [ ! -d $PATHLOGSCRIPTS ]; then
         mkdir $PATHLOGSCRIPTS
-        chmod 700 $PATHLOGSCRIPTS
-        chown admin:admin $PATHLOGSCRIPTS
+        chmod 770 $PATHLOGSCRIPTS
+        chown $USEREXECUTINGSCRIPT:$USEREXECUTINGSCRIPT $PATHLOGSCRIPTS
 fi
 
 
@@ -43,6 +43,16 @@ echo "$(tput setaf 5)****** AP Configuration: ******$(tput sgr 0)"
 echo
 
 ./ap-config.sh 2>> $PATHLOGSCRIPTS/install.log
+
+
+
+
+echo
+echo "$(tput setaf 5)****** Kernel: Driver Loading/Unloading and Setting Kernel Parameters ******$(tput sgr 0)"
+echo
+
+./kernel_modifications.sh 2>> $PATHLOGSCRIPTS/install.log
+
 
 
 
