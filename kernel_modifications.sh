@@ -19,7 +19,7 @@ source "${BASH_SOURCE%/*}/functions.sh"
 
 # Enable Forwarding:
 sed -i "s/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/" /etc/sysctl.conf
-sed -i "s/#net/ipv6/conf/default/forwarding=1/net/ipv6/conf/default/forwarding=1/" /etc/sysctl.conf
+sed -i "s/#net.ipv6.conf.all.forwarding=1/net.ipv6.conf.all.forwarding=1/" /etc/sysctl.conf
 
 # Read the new changes:
 sysctl -p
