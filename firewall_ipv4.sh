@@ -15,10 +15,9 @@ source "${BASH_SOURCE%/*}/functions.sh"
 echo "*nat" >> /etc/ufw/before.rules
 echo ":POSTROUTING ACCEPT [0:0]" >> /etc/ufw/before.rules
 
-echo "-A POSTROUTING -s $IPV4IPWLAN0 -o $INTERFACEAP -j MASQUERADE" >> /etc/ufw/before.rules
+echo "-A POSTROUTING -s $IPV4IPWLAN0 -o $INTERFACEMASQUERADED -j MASQUERADE" >> /etc/ufw/before.rules
 echo "">> /etc/ufw/before.rules
 echo "COMMIT" >> /etc/ufw/before.rules
-EOF
 
 
 
