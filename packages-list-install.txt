@@ -13,7 +13,7 @@ mtr
 tcpdump
 iptraf-ng
 dstat
-ipcalc
+sipcalc
 apt-file
 locate
 dnsutils

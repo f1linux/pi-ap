@@ -94,9 +94,28 @@ echo
 ufw show user-rules
 echo
 
+echo
+echo
+systemctl status hostapd.service 2>> $PATHLOGSCRIPTS/install.log
+echo
+echo
+
+
+echo
+echo
+systemctl status dhcpcd.service 2>> $PATHLOGSCRIPTS/install.log
+echo
+echo
+
+
+echo
+echo
+systemctl status dnsmasq.service 2>> $PATHLOGSCRIPTS/install.log
+echo
+echo
+
 
 
 echo "Config Completed. Host will reboot now"
 echo
 #systemctl reboot
-
