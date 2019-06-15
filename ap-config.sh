@@ -93,12 +93,9 @@ fi
 # NOTE: forwarding is configured in "kernel_modifications.sh" as its accomplished via the sysctl interface 
 
 ### DHCPCD Configuration:
-
-sed -i "s/#interface eth0/interface $INTERFACEAP/" /etc/dhcpcd.conf
-sed -i "s/#static ip_address=192.168.*/static ip_address=$IPV4IPWLAN0/" /etc/dhcpcd.conf
-sed -i "s/#static routers=192.168.*/static routers=$IPV4ROUTER/" /etc/dhcpcd.conf
-
-echo '' >> /etc/dhcpcd.conf
+echo "" >> /etc/dhcpcd.conf
+echo "interface $INTERFACEAP/" >> /etc/dhcpcd.conf
+echo "static ip_address=$IPV4IPWLAN0/" >> /etc/dhcpcd.conf
 echo "nohook wpa_supplicant" >> /etc/dhcpcd.conf
 echo '' >> /etc/dhcpcd.conf
 
