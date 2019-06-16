@@ -94,8 +94,8 @@ fi
 
 ### DHCPCD Configuration:
 echo "" >> /etc/dhcpcd.conf
-echo "interface $INTERFACEAP/" >> /etc/dhcpcd.conf
-echo "static ip_address=$IPV4IPWLAN0/" >> /etc/dhcpcd.conf
+echo "interface $INTERFACEAP" >> /etc/dhcpcd.conf
+echo "static ip_address=$IPV4IPWLAN0" >> /etc/dhcpcd.conf
 echo "nohook wpa_supplicant" >> /etc/dhcpcd.conf
 echo '' >> /etc/dhcpcd.conf
 
