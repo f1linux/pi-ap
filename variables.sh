@@ -54,7 +54,7 @@ IPV4IPWLAN0="$(ip addr list|grep wlan0|awk 'FNR==2'| awk '{print $2}')"
 IPV6IPWLA0="$(ip -6 addr|awk '{print $2}'|grep -P '^(?!fe80)[[:alnum:]]{4}:.*/64'|cut -d '/' -f1)"
 
 DHCPRANGESTART="$(sipcalc $IPV4IPWLAN0 | awk 'FNR==15'|awk '{print $4}')"
-DHCPRANGEFINISH="$(sipcalc $IPV4IPWLAN0 |cawk 'FNR==15'|awk '{print $6}')"
+DHCPRANGEFINISH="$(sipcalc $IPV4IPWLAN0 |awk 'FNR==15'|awk '{print $6}')"
 # dhcpcd.conf default: 192.168.0.50,192.168.0.150
 DHCPRANGE="$DHCPRANGESTART,$DHCPRANGEFINISH"
 
