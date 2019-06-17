@@ -15,7 +15,6 @@ OURDOMAIN='f1linux.com'
 # "1" = ENABLE (password *AND* Mac Address in "hostapd.accept" to authenticate to AP)
 MACADDRACL='1'
 
-
 # dhcpcd.conf variables
 # default: 12h
 DHCPLEASETIMEHOURS='12'
@@ -28,6 +27,15 @@ WIFIREGULATORYDOMAIN='GB'
 APWPA2PASSWD='cH4nG3M3'
 # Set channel to a non-overlapping channel where possible: 1/6/11 .  If a non-overlapping channel is saturated try the next one before using overlapping channels. 
 CHANNEL='6'
+
+# Operation Mode:
+# a   = IEEE 802.11a (5 GHz)
+# b   = IEEE 802.11b (2.4 GHz)
+# g   = IEEE 802.11g (2.4 GHz). For IEEE 802.11ac (VHT) set to hw_mode=g
+# ad  = IEEE 802.11ad (60 GHz); a/g options are used with IEEE 802.11n (HT), too, to specify band)
+# any = used to indicate that any support band can be used.  Currently supported only with drivers with which offloaded ACS is used.
+# Default: IEEE 802.11b
+HWMODE='g'
 
 
 # Interfaces are aliased for 2 reasons:

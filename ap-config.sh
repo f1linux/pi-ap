@@ -42,7 +42,9 @@ zcat /usr/share/doc/hostapd/examples/hostapd.conf.gz > /etc/hostapd/hostapd.conf
 sed -i "s/^interface=.*/interface=$INTERFACEAP/" /etc/hostapd/hostapd.conf
 sed -i "s/# driver=hostap/driver=nl80211/" /etc/hostapd/hostapd.conf
 sed -i "s/channel=.*/channel=$CHANNEL/" /etc/hostapd/hostapd.conf
+sed -i "s/hw_mode=g/hw_mode=$HWMODE/" /etc/hostapd/hostapd.conf
 sed -i "s/macaddr_acl=0/macaddr_acl=$MACADDRACL/" /etc/hostapd/hostapd.conf
+sed -i "s|#accept_mac_file=/etc/hostapd/hostapd.accept|accept_mac_file=/etc/hostapd/hostapd.accept|" /etc/hostapd/hostapd.conf
 sed -i "s/#accept_mac_file=\/etc\/hostapd.accept/#accept_mac_file=\/etc\/hostapd\/hostapd.accept/" /etc/hostapd/hostapd.conf
 sed -i "s/#ieee80211d=1/ieee80211d=1/" /etc/hostapd/hostapd.conf
 sed -i "s/ssid=test/ssid=$SSIDNAME/" /etc/hostapd/hostapd.conf
@@ -61,8 +63,11 @@ sed -i "s/#rsn_pairwise=CCMP/rsn_pairwise=CCMP/" /etc/hostapd/hostapd.conf
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=380632
 chmod 600 /etc/hostapd/hostapd.conf
 
-# Copy the file with MAC Addresses of devices allowed to connect to a GW via the WiFi AP just configured
-cp -p ./hostapd.accept /etc/hostapd/
+# Copy file with MAC Addresses of devices allowed to connect to AP
+cp $PATHSCRIPTS/hostapd.accept /etc/hostapd/
+chmod 600 /etc/hostapd/hostapd.accept
+chown root:root /etc/hostapd/hostapd.accept
+
 
 # Configure hostapd process as daemon:
 sed -i 's|#DAEMON_CONF=""|DAEMON_CONF="/etc/hostapd/hostapd.conf"|' /etc/default/hostapd
@@ -79,6 +84,9 @@ sed -i "s/REGDOMAIN=/REGDOMAIN=$WIFIREGULATORYDOMAIN/" /etc/default/crda
 ### DNSMASQ Configuration:
 sed -i "s/#interface=/interface=$INTERFACEAP/" /etc/dnsmasq.conf
 sed -i "s/#dhcp-range=192.168.*,192.168.*,.*h/dhcp-range=$DHCPRANGE,$DHCPLEASETIMEHOURS\h/" /etc/dnsmasq.conf
+sed -i "s/#log-queries/log-queries/" /etc/dnsmasq.conf
+# Enable 'log-dhcp' if you need to troubleshoot DNS and require more granular visibility:
+#sed -i "s/#log-dhcp/log-dhcp/" /etc/dnsmasq.conf
 
 if [[ $(systemctl list-unit-files|grep dnsmasq|awk '{print $2}') != 'enabled' ]]; then
 	systemctl enable dnsmasq
