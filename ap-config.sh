@@ -44,7 +44,7 @@ sed -i "s/# driver=hostap/driver=nl80211/" /etc/hostapd/hostapd.conf
 sed -i "s/channel=.*/channel=$CHANNEL/" /etc/hostapd/hostapd.conf
 sed -i "s/hw_mode=g/hw_mode=$HWMODE/" /etc/hostapd/hostapd.conf
 sed -i "s/macaddr_acl=0/macaddr_acl=$MACADDRACL/" /etc/hostapd/hostapd.conf
-sed -i "s|#accept_mac_file=/etc/hostapd/hostapd.accept|accept_mac_file=/etc/hostapd/hostapd.accept|" /etc/hostapd/hostapd.conf
+sed -i "s|#accept_mac_file=/etc/hostapd.accept|accept_mac_file=/etc/hostapd.accept|" /etc/hostapd/hostapd.conf
 sed -i "s/#ieee80211d=1/ieee80211d=1/" /etc/hostapd/hostapd.conf
 sed -i "s/ssid=test/ssid=$SSIDNAME/" /etc/hostapd/hostapd.conf
 sed -i "s/auth_algs=3/auth_algs=1/" /etc/hostapd/hostapd.conf
@@ -63,9 +63,9 @@ sed -i "s/#rsn_pairwise=CCMP/rsn_pairwise=CCMP/" /etc/hostapd/hostapd.conf
 chmod 600 /etc/hostapd/hostapd.conf
 
 # Copy file with MAC Addresses of devices allowed to connect to AP
-cp $PATHSCRIPTS/hostapd.accept /etc/hostapd/
-chmod 600 /etc/hostapd/hostapd.accept
-chown root:root /etc/hostapd/hostapd.accept
+cp $PATHSCRIPTS/hostapd.accept /etc/
+chmod 600 /etc/hostapd.accept
+chown root:root /etc/hostapd.accept
 
 
 # Configure hostapd process as daemon:
