@@ -17,12 +17,17 @@ echo
 # usbmount: interferes with SystemD auto-mounts which we will use for the USB Flash Drive where video and images are written locally to
 # libreoffice: it is just crap and not required on a device being used as a video camera
 
-
+echo
+echo "Removing packages listed in packages-list-purge.txt"
+echo
 readarray arrayPackagesListPURGE < $PATHSCRIPTS/packages-list-purge.txt
 
 for i in ${arrayPackagesListPURGE[@]}; do
 if [[ ! $(dpkg -l | grep "^ii  $i[[:space:]]") = '' ]]; then
 	apt-get -y purge $i
+	echo "Removed package $i"
+else
+	echo "Package $i not present on system"
 fi
 done
 
@@ -48,8 +53,30 @@ echo
 echo "$(tput setaf 5)******  Install Packages:  ******$(tput sgr 0)"
 echo
 
-# For info about a particular package to learn more about what it actually does:
+# For info about a particular package in the list of packages to be installed in packages-list-install.txt:
 #	sudo apt-cache show packagename
+
+# Package debconf-utils must be installed separately and FIRST before mass package installation occurs:
+# If a subsequent package tries to open a dialog requiring user input and debconf-utils has not been installed
+# it will break unattended installation by pausing script for user input.  Very bad.
+
+if [[ $(dpkg -l | grep "^ii  debconf-utils[[:space:]]") = '' ]]; then
+	until apt-get -y install debconf-utils
+	do
+		echo
+		echo "Package $(tput setaf 3)$i $(tput sgr 0)not found"
+		echo
+		echo "Skipping to next package in packages-list-install.txt"
+		echo
+		break
+	done
+elif [[ $(dpkg -l | grep "^ii  debconf-utils[[:space:]]") =  $(dpkg -l | grep "^ii  debconf-utils[[:space:]]") ]]; then
+	echo "Package debconf-utils already installed"
+fi
+
+export DEBIAN_FRONTEND=noninteractive
+
+
 
 readarray arrayPackagesListInstall < $PATHSCRIPTS/packages-list-install.txt
 
@@ -58,9 +85,14 @@ if [[ $(dpkg -l | grep "^ii  $i[[:space:]]") = '' ]]; then
 	until apt-get -y install $i
 	do
 		echo
-		echo "$(tput setaf 3)CTRL +C to exit if failing endlessly$(tput sgr 0)"
+		echo "Package $(tput setaf 3)$i $(tput sgr 0)not found"
 		echo
+		echo "Skipping to next package in packages-list-install.txt"
+		echo
+		break
 	done
+elif [[ $(dpkg -l | grep "^ii  $i[[:space:]]") =  $(dpkg -l | grep "^ii  $i[[:space:]]") ]]; then
+	echo "Package $i already installed"
 fi
 done
 
