@@ -7,6 +7,12 @@
 # Script Author: 	Terrence Houlahan
 # Contact:		houlahan@F1Linux.com
 
+
+# Package "sipcalc" used to auto-populate the dhcpcd variables.
+# So the package download must precede the variables call that rely on it:
+apt-get install -y sipcalc
+
+
 # Do not edit below sources  
 source "${BASH_SOURCE%/*}/variables.sh"
 source "${BASH_SOURCE%/*}/functions.sh"
