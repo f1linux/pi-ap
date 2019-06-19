@@ -1,12 +1,10 @@
+haveged
 rng-tools5
-dnsmasq-base
-dnsmasq
 hostapd
 bridge-utils
 wireless-tools
 debconf-utils
-libnss-resolve
-git
+libnss-resolv
 vim
 screen
 mtr
@@ -17,4 +15,6 @@ sipcalc
 apt-file
 locate
 dnsutils
+dnsmasq-base
+dnsmasq
 ufw
