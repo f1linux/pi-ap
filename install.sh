@@ -8,11 +8,6 @@
 # Contact:		houlahan@F1Linux.com
 
 
-# Package "sipcalc" used to auto-populate the dhcpcd variables.
-# So the package download must precede the variables call that rely on it:
-apt-get install -y sipcalc
-
-
 # Do not edit below sources  
 source "${BASH_SOURCE%/*}/variables.sh"
 source "${BASH_SOURCE%/*}/functions.sh"
@@ -90,9 +85,11 @@ ufw status numbered verbose
 echo
 
 
+echo '###################################################################################################'
+
 
 echo
-echo "$(tput setaf 4)Troubleshooting FW Rules:$(tput sgr 0)"
+echo "$(tput setaf 4)Troubleshooting: Show FW Rules:$(tput sgr 0)"
 echo
 echo "$(tput setaf 4)Execute 'sudo ufw show user-rules' and view packet counts for non-zero values to determine if rules are matching$(tput sgr 0)"
 echo "$(tput setaf 4)Specimen output of the command shown below:$(tput sgr 0)"
@@ -100,28 +97,59 @@ echo
 ufw show user-rules
 echo
 
+
+echo '###################################################################################################'
+
+
+echo
+echo "$(tput setaf 4)Troubleshooting: Show Processes Status:$(tput sgr 0)"
+echo
+
 echo
 echo
-systemctl status hostapd.service 2>> $PATHLOGSCRIPTS/install.log
+systemctl status hostapd.service --no-pager 2>> $PATHLOGSCRIPTS/install.log
 echo
 echo
 
 
 echo
 echo
-systemctl status dhcpcd.service 2>> $PATHLOGSCRIPTS/install.log
+systemctl status dhcpcd.service --no-pager 2>> $PATHLOGSCRIPTS/install.log
 echo
 echo
 
 
 echo
 echo
-systemctl status dnsmasq.service 2>> $PATHLOGSCRIPTS/install.log
+systemctl status dnsmasq.service --no-pager 2>> $PATHLOGSCRIPTS/install.log
 echo
 echo
 
+echo '###################################################################################################'
+
+echo
+echo "$(tput setaf 4)Troubleshooting: Show Key Config Files:$(tput sgr 0)"
+echo
+
+echo "Show $(tput setaf 4)/etc/dnsmasq.conf$(tput sgr 0)"
+echo
+cat /etc/dnsmasq.conf | grep "^[^#]"
+echo
+echo
+
+echo "Show $(tput setaf 4)/etc/dhcpcd.conf$(tput sgr 0)"
+echo
+cat /etc/dhcpcd.conf | grep "^[^#]"
+echo
+echo
+
+echo "Show $(tput setaf 4)/etc/hostapd/hostapd.conf$(tput sgr 0)"
+echo
+cat /etc/hostapd/hostapd.conf | grep "^[^#]"
+echo
+echo
 
 
 echo "Config Completed. Host will reboot now"
 echo
-#systemctl reboot
+systemctl reboot

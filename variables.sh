@@ -52,16 +52,11 @@ DHCPLEASETIMEHOURS='12'
 
 # BELOW ARE SELF-POPULATING: They require no user input or modification
 #######################################################################
+### PLEASE NOTE: ###
+# Although MOST variables are centralized in this file be aware
+# that a subset of self-populating variables live in the file:
+# 	ap-config.sh
+# They were moved there because the dependent script "packages.sh" must execute BEFORE
+# "ap-config.sh" to install "sipcalc" which is used in those variables for ip calculations
 PATHSCRIPTS="/home/$(echo $USEREXECUTINGSCRIPT)/$(echo $REPONAME)"
 PATHLOGSCRIPTS="/home/$(echo $USEREXECUTINGSCRIPT)/$(echo $REPONAME)/logs"
-
-IPV4IPETH0="$(ip addr list|grep eth0|awk 'FNR==2'| awk '{print $2}')"
-IPV4IPWLAN0="$(ip addr list|grep wlan0|awk 'FNR==2'| awk '{print $2}')"
-IPV6IPWLA0="$(ip -6 addr|awk '{print $2}'|grep -P '^(?!fe80)[[:alnum:]]{4}:.*/64'|cut -d '/' -f1)"
-
-DHCPRANGESTART="$(sipcalc $IPV4IPWLAN0 | awk 'FNR==15'|awk '{print $4}')"
-DHCPRANGEFINISH="$(sipcalc $IPV4IPWLAN0 |awk 'FNR==15'|awk '{print $6}')"
-# dhcpcd.conf default: 192.168.0.50,192.168.0.150
-DHCPRANGE="$DHCPRANGESTART,$DHCPRANGEFINISH"
-
-export DEBIAN_FRONTEND=noninteractive

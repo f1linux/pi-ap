@@ -12,6 +12,21 @@ source "${BASH_SOURCE%/*}/variables.sh"
 source "${BASH_SOURCE%/*}/functions.sh"
 
 
+# BELOW ARE SELF-POPULATING: They require no user input or modification
+#######################################################################
+# variables below self-populate and are ONLY called in this file to supply values to directives in /etc/dnsmasq.conf
+# These live outside centralized location "variables.sh" as they require script "packages.sh" to have already executed to install dependency pkg "sipcalc"
+
+IPV4IPETH0="$(ip addr list|grep eth0|awk 'FNR==2'| awk '{print $2}')"
+IPV4IPWLAN0="$(ip addr list|grep wlan0|awk 'FNR==2'| awk '{print $2}')"
+IPV6IPWLAN0="$(ip -6 addr|awk '{print $2}'|grep -P '^(?!fe80)[[:alnum:]]{4}:.*/64'|cut -d '/' -f1)"
+
+DHCPRANGESTART="$(sipcalc $IPV4IPWLAN0 | awk 'FNR==15'|awk '{print $4}')"
+DHCPRANGEFINISH="$(sipcalc $IPV4IPWLAN0 |awk 'FNR==15'|awk '{print $6}')"
+# dhcpcd.conf default: 192.168.0.50,192.168.0.150
+DHCPRANGE="$DHCPRANGESTART,$DHCPRANGEFINISH"
+
+
 # Useful NetworkManager Commands:
 # https://www.thegeekdiary.com/how-to-configure-and-manage-network-connections-using-nmcli/
 #----------------
@@ -82,7 +97,7 @@ sed -i "s/REGDOMAIN=/REGDOMAIN=$WIFIREGULATORYDOMAIN/" /etc/default/crda
 
 ### DNSMASQ Configuration:
 sed -i "s/#interface=/interface=$INTERFACEAP/" /etc/dnsmasq.conf
-sed -i "s/#dhcp-range=192.168.*,192.168.*,.*h/dhcp-range=$DHCPRANGE,$DHCPLEASETIMEHOURS\h/" /etc/dnsmasq.conf
+sed -i "s|#dhcp-range=192.168.*,192.168.*,.*h|dhcp-range=$DHCPRANGE,$DHCPLEASETIMEHOURS\h|" /etc/dnsmasq.conf
 sed -i "s/#log-queries/log-queries/" /etc/dnsmasq.conf
 # Enable 'log-dhcp' if you need to troubleshoot DNS and require more granular visibility:
 #sed -i "s/#log-dhcp/log-dhcp/" /etc/dnsmasq.conf
