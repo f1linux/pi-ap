@@ -8,15 +8,21 @@ OURDOMAIN='f1linux.com'
 
 
 ### AP Variables:
-SSIDNAME='BT99ABZ1'
+
+# The DHCP Pool will be derived from the IP and mask specified in "IPV4IPWLAN0" below. If you require a bigger pool than use a mask large than a /28
+# ** Ensure that this subnet specified below is not already used on your network **
+IPV4IPWLAN0='192.168.0.1/28'
+#IPV6IPWLAN0="$(ip -6 addr|awk '{print $2}'|grep -P '^(?!fe80)[[:alnum:]]{4}:.*/64'|cut -d '/' -f1)"
+
+SSIDNAME='PI_AccessPoint'
 WIFIREGULATORYDOMAIN='GB'
 # Password must be min 8 characters and must NOT include single quotes- these are used as delimiters to encase the password so other special characters do not expand in bash
 APWPA2PASSWD='cH4nG3M3'
 
-# MACADDRACL restricts AP auth to only hosts with their WiFi interface mac address in "hostapd.accept"
+# MACADDRACL restricts AP authentication to only hosts with their WiFi interface mac address listed in "hostapd.accept"
 # "0" = DISABLE (password auth only)
 # "1" = ENABLE (password *AND* Mac Address in "hostapd.accept" to authenticate to AP)
-MACADDRACL='1'
+MACADDRACL='0'
 
 # Set channel to a non-overlapping channel where possible: 1/6/11 .  If a non-overlapping channel is saturated try the next one before using overlapping channels. 
 CHANNEL='6'
