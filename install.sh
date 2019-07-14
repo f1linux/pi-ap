@@ -5,12 +5,15 @@
 # Version 01.00.00
 
 # Script Author: 	Terrence Houlahan
-# Contact:		houlahan@F1Linux.com
+# Contact:			houlahan@F1Linux.com
 
 
 # Do not edit below sources  
 source "${BASH_SOURCE%/*}/variables.sh"
 source "${BASH_SOURCE%/*}/functions.sh"
+
+
+# Create directories to organize bespoke scripts and logging:
 
 
 if [ ! -d $PATHLOGSCRIPTS ]; then
@@ -53,49 +56,6 @@ echo "$(tput setaf 5)****** Kernel: Driver Loading/Unloading and Setting Kernel 
 echo
 
 ./kernel_modifications.sh 2>> $PATHLOGSCRIPTS/install.log
-
-
-
-
-echo
-echo "$(tput setaf 5)****** FireWall Config: ******$(tput sgr 0)"
-echo
-
-./firewall_Default-Policies.sh 2>> $PATHLOGSCRIPTS/install.log
-./firewall_ipv4.sh 2>> $PATHLOGSCRIPTS/install.log
-./firewall_ipv6.sh 2>> $PATHLOGSCRIPTS/install.log
-
-echo "$(tput setaf 4)Load UFW Firewall Changes$(tput sgr 0)"
-echo "y" | ufw disable
-echo "y" | ufw enable
-
-ufw logging on
-
-
-
-echo
-echo "$(tput setaf 4)Reloading FW Rules$(tput sgr 0)"
-ufw reload
-echo
-
-
-
-echo "$(tput setaf 4)Printing Firewall Status$(tput sgr 0)"
-ufw status numbered verbose
-echo
-
-
-echo '###################################################################################################'
-
-
-echo
-echo "$(tput setaf 4)Troubleshooting: Show FW Rules:$(tput sgr 0)"
-echo
-echo "$(tput setaf 4)Execute 'sudo ufw show user-rules' and view packet counts for non-zero values to determine if rules are matching$(tput sgr 0)"
-echo "$(tput setaf 4)Specimen output of the command shown below:$(tput sgr 0)"
-echo
-ufw show user-rules
-echo
 
 
 echo '###################################################################################################'
@@ -148,6 +108,65 @@ echo
 cat /etc/hostapd/hostapd.conf | grep "^[^#]"
 echo
 echo
+
+echo "Check below feedback from $(tput setaf 4)rfkill list$(tput sgr 0) to determine if any interfaces register a hardblock"
+echo
+rfkill list
+echo
+echo
+
+echo "Show radio Status: $(tput setaf 4)nmcli radio$(tput sgr 0)":
+nmcli radio
+echo
+echo
+
+echo "Show $(tput setaf 4)NetworkManager$(tput sgr 0) managed interfaces: $(tput setaf 4)nmcli connection show$(tput sgr 0) :"
+nmcli connection show
+echo
+echo
+
+echo "Show $(tput setaf 4)systemd-networkd$(tput sgr 0) managed connections: $(tput setaf 4)networkctl list$(tput sgr 0) :"
+networkctl list
+echo
+echo
+
+echo 'Show Wireless Driver Mode: "cat /etc/modprobe.d/rs9113.conf" :'
+echo 'Expected value is "6" - A value of "13" (default) breaks WiFi'
+cat /etc/modprobe.d/rs9113.conf
+echo
+echo
+
+
+echo
+echo "$(tput setaf 5)****** FireWall Config: ******$(tput sgr 0)"
+echo
+
+./firewall_ipv4.sh 2>> $PATHLOGSCRIPTS/install.log
+./firewall_ipv6.sh 2>> $PATHLOGSCRIPTS/install.log
+./firewall_Default-Policies.sh 2>> $PATHLOGSCRIPTS/install.log
+
+echo "$(tput setaf 4)Load UFW Firewall Changes$(tput sgr 0)"
+echo "y" | ufw disable
+echo "y" | ufw enable
+
+ufw logging on
+
+
+echo "$(tput setaf 4)Print Firewall Rules$(tput sgr 0)"
+ufw status numbered verbose
+echo
+
+
+echo
+echo "$(tput setaf 4)Print Firewall USER Rules Only$(tput sgr 0)"
+echo
+echo "$(tput setaf 4)Execute 'sudo ufw show user-rules' and view packet counts for non-zero values to determine if rules are matching$(tput sgr 0)"
+echo "$(tput setaf 4)Specimen output of the command shown below:$(tput sgr 0)"
+echo
+ufw show user-rules
+echo
+
+
 
 
 echo "Config Completed. Host will reboot now"
