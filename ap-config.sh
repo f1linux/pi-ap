@@ -18,7 +18,6 @@ source "${BASH_SOURCE%/*}/functions.sh"
 # These live outside centralized location "variables.sh" as they require script "packages.sh" to have already executed to install dependency pkg "sipcalc"
 
 IPV4IPETH0="$(ip addr list|grep eth0|awk 'FNR==2'| awk '{print $2}')"
-IPV4IPWLAN0="$(ip addr list|grep wlan0|awk 'FNR==2'| awk '{print $2}')"
 IPV6IPWLAN0="$(ip -6 addr|awk '{print $2}'|grep -P '^(?!fe80)[[:alnum:]]{4}:.*/64'|cut -d '/' -f1)"
 IPV4GWWLAN0="$(ip route | grep default | grep wlan0 | awk '{print $3}')"
 
@@ -170,6 +169,7 @@ echo
 
 #######  hostapd Configuration:  #######
 # References:
+#	https://wiki.gentoo.org/wiki/Hostapd
 #	https://wiki.archlinux.org/index.php/Software_access_point
 # 	https://wireless.wiki.kernel.org/en/users/documentation/hostapd
 # 	http://w1.fi/wpa_supplicant/devel/
