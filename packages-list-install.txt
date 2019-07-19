@@ -1,5 +1,4 @@
 sipcalc
-haveged
 rng-tools5
 hostapd
 bridge-utils
