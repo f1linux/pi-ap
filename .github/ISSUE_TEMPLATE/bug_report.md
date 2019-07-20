@@ -17,7 +17,7 @@ ie:
  - Authentication problems
  - Cannot reach Internet
 
-** Did AP EVER work correctly before fault?**
+**Did AP EVER work correctly before fault?**
  
  - ***yes*** 
  - ***no***
