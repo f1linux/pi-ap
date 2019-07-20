@@ -1,23 +1,20 @@
 #!/bin/bash
 
-# Version 01.00.00
+# pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
+# Source:	https://github.com/f1linux/pi-ap
+# Version:	01.00.00
+# License:	GPL 3.0
 
-# Script Author:        Terrence Houlahan
+# Script Author:        Terrence Houlahan Linux & Network Engineer
 # Contact:              houlahan@F1Linux.com
+
 
 # Do not edit below sources
 source "${BASH_SOURCE%/*}/variables.sh"
 source "${BASH_SOURCE%/*}/functions.sh"
 
 
-if [ ! -d $PATHLOGSCRIPTS ]; then
-        mkdir $PATHLOGSCRIPTS
-        chmod 700 $PATHLOGSCRIPTS
-        chown admin:admin $PATHLOGSCRIPTS
-fi
-
-
-# NOTE: IPv6 does NAT and therefore does not require masquerading like seenm in the IPv4 rules.
+# NOTE: IPv6 does NAT and therefore does not require masquerading as configured in the IPv4 rules.
 
 rm /etc/ufw/user6.rules
 

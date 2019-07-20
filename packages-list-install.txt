@@ -4,8 +4,8 @@ hostapd
 bridge-utils
 wireless-tools
 libnss-resolve
-vim
 screen
+vim
 mtr
 tcpdump
 iptraf-ng

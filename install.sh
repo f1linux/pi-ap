@@ -2,10 +2,13 @@
 
 #set -x
 
-# Version 01.00.00
+# pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
+# Source:	https://github.com/f1linux/pi-ap
+# Version:	01.00.00
+# License:	GPL 3.0
 
-# Script Author: 	Terrence Houlahan
-# Contact:			houlahan@F1Linux.com
+# Script Author:        Terrence Houlahan Linux & Network Engineer
+# Contact:              houlahan@F1Linux.com
 
 
 # Do not edit below sources  
@@ -13,9 +16,22 @@ source "${BASH_SOURCE%/*}/variables.sh"
 source "${BASH_SOURCE%/*}/functions.sh"
 
 
-# Create directories to organize bespoke scripts and logging:
+
+echo
+echo "$(tput setaf 5)******  GPL3 LICENSE:  ******$(tput sgr 0)"
+echo
+
+echo 'All scripts/files in the pi-ap repository are Copyright (C) 2019 Terrence Houlahan'
+echo
+echo "This program comes with ABSOLUTELY NO WARRANTY express or implied."
+echo "This is free software and you are welcome to redistribute it under certain conditions."
+echo "Consult * LICENSE.txt * for full terms of GPL 3 License and conditions of use."
+
+read -p "Press ENTER to accept GPL v3 license terms to continue or terminate this bash shell to exit script"
 
 
+
+# Create directory where logs will be written
 if [ ! -d $PATHLOGSCRIPTS ]; then
         mkdir $PATHLOGSCRIPTS
         chmod 770 $PATHLOGSCRIPTS
