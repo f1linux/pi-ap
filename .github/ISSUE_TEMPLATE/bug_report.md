@@ -43,7 +43,7 @@ Please record detailed error feedback in the form of error messages and/or scree
 
 **AP Client:**
  - Device: [e.g. iPhone6]
- - OS: [e.g. iOS Android / OSX / Linux / Windows]
+ - OS: [e.g. iOS / Android / OSX / Linux / Windows]
  - Version [e.g. 22]
 
 
