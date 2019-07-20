@@ -51,7 +51,7 @@ The obvious use cases for these scripts is:
 # 3. COMPATIBILITY
 These scripts have been tested on the following Pi models & OSs and found to work correctly:
 
-- Pi 3B+ Running Raspbian Stretch
+- Pi 3B+ Running Raspbian ***Stretch***
 
 
 # 4. FEATURES
