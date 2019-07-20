@@ -22,10 +22,12 @@ ie:
  - ***yes*** 
  - ***no***
 
+
 If "***yes***", from date last observed working correctly, detail change analysis conducted.  ie: config changes, upgrades and/or reboots of:
 
  - Router:
  - Pi:
+
 
 **Bug CONSISTENTLY reproducible?**
 
@@ -38,10 +40,13 @@ If "***yes***", provide detailed steps to reproduce bug:
 **Error Messages/Screenshots**
 Please record detailed error feedback in the form of error messages and/or screenshots
 
+
 **AP Client:**
  - Device: [e.g. iPhone6]
  - OS: [e.g. iOS Android / OSX / Linux / Windows]
  - Version [e.g. 22]
 
+
 **Additional context**
 Add any other context about the problem here.
+
