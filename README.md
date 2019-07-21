@@ -18,7 +18,7 @@
 4.  FEATURES
 5.  LICENSE
 6.  HARDWARE REQUIREMENTS
-7.  INSTALLATION
+7.  CONFIGURATION
 8.  TROUBLESHOOTING
 9.  USEFUL LINKS
 
@@ -38,12 +38,11 @@ Other host configuration is performed, but the foregoing are the key packages re
 
 
 # 2. USE-CASES
-***pi-ap*** is NOT meant to replace enterprise class AP systems which offer beefier hardware and joined-up management interfaces for building or campus deployments.
-The obvious use cases for these scripts is:
+***pi-ap*** is NOT meant to replace enterprise class AP systems which offer beefier hardware and joined-up management interfaces for building or campus deployments.  The obvious use-cases for these scripts are:
 
 - **Dead-Spot Coverage**: Individuals and small businesses with a few dead-spots in their WiFi coverage can use this solution
 
-- **Event Coverage**: Run a ***pi-ap*** out of a window into your back yard for hammock surfing ;-)
+- **Temporary Coverage**: Working in a temporary location- maybe a data center or possibly a hammock in your back yard- the ***pi-ap*** is a tidy, portable solution you can use to quickly & easily establish wireless connectivity.
 
 - **Network Training**: An AP is a networking microcosm offering wide opportunities for teaching networking configuration & troubleshooting on inexpensive commodity hardware
 
@@ -80,11 +79,11 @@ using a single Ethernet cable for both **Data + Power** becomes more interesting
 
 **POE**:
 --
-POE gear I have had success with- YMMV- with my Pi applications is
+POE gear I have had success with- YMMV- with my Pi applications:
 
-- **Ethernet Cable**: A Tripp Lite Cat6 24 AWG Ethernet Cable is suggested (for most use cases). Amazon sells them in various lengths & colours
+- **Ethernet Cable**: A ***Tripp Lite*** Cat6 24 AWG Ethernet Cable is suggested (for most use cases). Amazon sells them in various lengths & colours
 
-- **POE Switch**: ZyXEL 8-Port GS1900-8HP-GB0102F switch. Also found on Amazon. Lots of features for a reasonable price
+- **POE Switch**: ZyXEL 8-Port ***GS1900-8HP-GB0102F*** switch. Also found on Amazon. Lots of features for a reasonable price
 
 - **POE Hat or POE Splitter**:  Although most Pi vendors sell the POE ***Hat***, POE ***Splitters*** will be found on Amazon.
 
@@ -92,13 +91,13 @@ I discuss POE gear and perform a ***cost*** vs. ***benefit*** analysis at below 
 
 [choosing-a-pi4-power-supply](https://raspberrypi.stackexchange.com/questions/99983/choosing-a-pi4-power-supply/99986#99986)
 
-# 7. INSTALLATION & Configuration:
+# 7. CONFIGURATION:
 
-**Hardware Configuration**:
+## **Hardware Configuration**:
 
 - Connect the Pi to a DHCP-enabled Ethernet port in router configured with Internet connection or a switch connected to this router
 
-**Software Configuration**:
+## **Software Configuration**:
 All the complex configuration is abstracted into a centralized variables file named "***variables.sh***". This file is sourced by all repo scripts.
 Edit this file in ***nano*** to modify default values and execute ***install.sh***. All the other scripts are chained off of ***install.sh***
 That it to achieve a working Pi AP
@@ -144,4 +143,4 @@ A suggested _non-exhausitive_ list of things to investigate if ***pi-ap*** broke
 # 9. USEFUL LINKS
 
 
-Well, I think that about covers it...
+Well, I think that about covers what you need to know in a README file...
