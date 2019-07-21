@@ -38,8 +38,7 @@ Other host configuration is performed, but the foregoing are the key packages re
 
 
 # 2. USE-CASES
-***pi-ap*** is NOT meant to replace enterprise class AP systems which offer beefier hardware and joined-up management interfaces for building or campus deployments.
-The obvious use cases for these scripts is:
+***pi-ap*** is NOT meant to replace enterprise class AP systems which offer beefier hardware and joined-up management interfaces for building or campus deployments.  The obvious use-cases for these scripts are:
 
 - **Dead-Spot Coverage**: Individuals and small businesses with a few dead-spots in their WiFi coverage can use this solution
 
@@ -80,11 +79,11 @@ using a single Ethernet cable for both **Data + Power** becomes more interesting
 
 **POE**:
 --
-POE gear I have had success with- YMMV- with my Pi applications is
+POE gear I have had success with- YMMV- with my Pi applications:
 
-- **Ethernet Cable**: A Tripp Lite Cat6 24 AWG Ethernet Cable is suggested (for most use cases). Amazon sells them in various lengths & colours
+- **Ethernet Cable**: A ***Tripp Lite*** Cat6 24 AWG Ethernet Cable is suggested (for most use cases). Amazon sells them in various lengths & colours
 
-- **POE Switch**: ZyXEL 8-Port GS1900-8HP-GB0102F switch. Also found on Amazon. Lots of features for a reasonable price
+- **POE Switch**: ZyXEL 8-Port ***GS1900-8HP-GB0102F*** switch. Also found on Amazon. Lots of features for a reasonable price
 
 - **POE Hat or POE Splitter**:  Although most Pi vendors sell the POE ***Hat***, POE ***Splitters*** will be found on Amazon.
 
@@ -92,7 +91,7 @@ I discuss POE gear and perform a ***cost*** vs. ***benefit*** analysis at below 
 
 [choosing-a-pi4-power-supply](https://raspberrypi.stackexchange.com/questions/99983/choosing-a-pi4-power-supply/99986#99986)
 
-# 7. INSTALLATION & Configuration:
+# 7. INSTALLATION & CONFIGURATION:
 
 **Hardware Configuration**:
 
@@ -144,4 +143,4 @@ A suggested _non-exhausitive_ list of things to investigate if ***pi-ap*** broke
 # 9. USEFUL LINKS
 
 
-Well, I think that about covers it...
+Well, I think that about covers what you need to know in a README file...
