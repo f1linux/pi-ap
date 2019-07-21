@@ -18,7 +18,7 @@
 4.  FEATURES
 5.  LICENSE
 6.  HARDWARE REQUIREMENTS
-7.  INSTALLATION
+7.  CONFIGURATION
 8.  TROUBLESHOOTING
 9.  USEFUL LINKS
 
@@ -91,13 +91,13 @@ I discuss POE gear and perform a ***cost*** vs. ***benefit*** analysis at below 
 
 [choosing-a-pi4-power-supply](https://raspberrypi.stackexchange.com/questions/99983/choosing-a-pi4-power-supply/99986#99986)
 
-# 7. INSTALLATION & CONFIGURATION:
+# 7. CONFIGURATION:
 
-**Hardware Configuration**:
+## **Hardware Configuration**:
 
 - Connect the Pi to a DHCP-enabled Ethernet port in router configured with Internet connection or a switch connected to this router
 
-**Software Configuration**:
+## **Software Configuration**:
 All the complex configuration is abstracted into a centralized variables file named "***variables.sh***". This file is sourced by all repo scripts.
 Edit this file in ***nano*** to modify default values and execute ***install.sh***. All the other scripts are chained off of ***install.sh***
 That it to achieve a working Pi AP
