@@ -42,7 +42,7 @@ Other host configuration is performed, but the foregoing are the key packages re
 
 - **Dead-Spot Coverage**: Individuals and small businesses with a few dead-spots in their WiFi coverage can use this solution
 
-- **Event Coverage**: Run a ***pi-ap*** out of a window into your back yard for hammock surfing ;-)
+- **Temporary Coverage**: Working in a temporary location- maybe a data center or possibly a hammock in your back yard- the ***pi-ap*** is a tidy, portable solution you can use to quickly & easily establish wireless connectivity.
 
 - **Network Training**: An AP is a networking microcosm offering wide opportunities for teaching networking configuration & troubleshooting on inexpensive commodity hardware
 
