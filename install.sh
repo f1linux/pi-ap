@@ -4,7 +4,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.01.00
+# Version:	01.02.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -72,6 +72,31 @@ echo "$(tput setaf 5)****** Kernel: Driver Loading/Unloading and Setting Kernel 
 echo
 
 ./kernel_modifications.sh 2>> $PATHLOGSCRIPTS/install.log
+
+
+
+
+echo
+echo "$(tput setaf 5)****** USB Customizations ******$(tput sgr 0)"
+echo
+
+echo
+echo 'Disable USB Autosuspend:'
+echo
+echo
+echo 'Output of: cat /sys/module/usbcore/parameters/autosuspend'
+echo "Value of '2' = USB Autosuspend $(tput setaf 1)ENABLED$(tput sgr 0)"
+echo
+cat /sys/module/usbcore/parameters/autosuspend
+
+./usb-customizations.sh 2>> $PATHLOGSCRIPTS/install.log
+
+cd $PATHSCRIPTSROOT
+./usb-autosuspend-disable.sh
+
+# Return to the repo install directory after executing script created by Here-Doc:
+cd $PATHSCRIPTS
+
 
 
 echo '###################################################################################################'

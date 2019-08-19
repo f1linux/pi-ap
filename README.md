@@ -4,7 +4,7 @@
 
 \# Source:	https://github.com/f1linux/pi-ap
 
-# Version:	01.01.00
+# Version:	01.02.00
 
 \# Script Author:        Terrence Houlahan Linux & Network Engineer
 
@@ -12,6 +12,7 @@
 
 
 # README CONTENTS:
+--
 1.  ABOUT "pi-ap"
 2.  USE-CASES
 3.  COMPATIBILITY
@@ -24,7 +25,8 @@
 
 
 # 1. ABOUT "pi-ap":
-"***pi-ap***" is a series of **bash scripts** that automates configuration of standardized packages to transform a PI into a wireless Access Point ("AP")
+--
+"***pi-ap***" is a series of **bash scripts** that automates configuration of below standardized packages to transform a PI into a wireless Access Point ("AP"):
 
 - ***hostapd***: Probably the most widely used package for creating an AP in Linux and a standard
 
@@ -38,24 +40,26 @@ Other host configuration is performed, but the foregoing are the key packages re
 
 
 # 2. USE-CASES
+--
 ***pi-ap*** is NOT meant to replace enterprise class AP systems which offer beefier hardware and joined-up management interfaces for building or campus deployments.
 The obvious use cases for these scripts is:
 
 - **Dead-Spot Coverage**: Individuals and small businesses with a few dead-spots in their WiFi coverage can use this solution
 
-- **Event Coverage**: Run a ***pi-ap*** out of a window into your back yard for hammock surfing ;-)
+- **Event Coverage**: Connect a ***pi-ap*** to a long Ethernet cable out of a window into your back yard for hammock surfing :-)
 
 - **Network Training**: An AP is a networking microcosm offering wide opportunities for teaching networking configuration & troubleshooting on inexpensive commodity hardware
 
 
 # 3. COMPATIBILITY
+--
 These scripts have been tested on the following Pi models & OSs and found to work correctly:
 
 - Pi 3B+ Running Raspbian Stretch
 
 
 # 4. FEATURES
-
+--
 - **No Subnetting Required**: DHCP IP pool for connecting clients is automatically calculated from a single IP and mask you specify
 
 - **MAC Address Restriction**: In addition to restricting by password you also have the ability to restrict by hardware address of connecting devices
@@ -67,6 +71,7 @@ These scripts have been tested on the following Pi models & OSs and found to wor
 - **Crypto uses Hardware Random Number Generator ("RNG")**: Entropy generated via hardware RNG using ***rng-tools***
 
 # 5. LICENSE
+--
 Terrence Houlahan developed "***pi-ap***" and opensources it under the terms of the GPL 3.0 License that is distributed with my repo source files
 
 # 6. HARDWARE REQUIREMENTS
@@ -92,13 +97,17 @@ I discuss POE gear and perform a ***cost*** vs. ***benefit*** analysis at below 
 
 [choosing-a-pi4-power-supply](https://raspberrypi.stackexchange.com/questions/99983/choosing-a-pi4-power-supply/99986#99986)
 
-# 7. INSTALLATION & Configuration:
-
+# 7. INSTALLATION & CONFIGURATION:
+--
 **Hardware Configuration**:
+---
 
-- Connect the Pi to a DHCP-enabled Ethernet port in router configured with Internet connection or a switch connected to this router
+- Connect the Pi to a DHCP-enabled Ethernet port in a router configured with Internet connection or a switch connected to this router.
+
+NOTE: You can connect a "***pi-ap**" to some intermediate router but you will of course have to configure the routing so the Pi can reach the router with the Internet connection.
 
 **Software Configuration**:
+---
 All the complex configuration is abstracted into a centralized variables file named "***variables.sh***". This file is sourced by all repo scripts.
 Edit this file in ***nano*** to modify default values and execute ***install.sh***. All the other scripts are chained off of ***install.sh***
 That it to achieve a working Pi AP
@@ -109,15 +118,18 @@ Either using a local or SSH connection to the Pi execute the following commands:
 
 - b) `cd pi-ap`
 
-- c) `nano variables.sh`	# Modify default values for variables
+- c) `nano variables.sh`	# Modify default variable values, particularly default **AP password** in "APWPA2PASSWD" and AP's default networking in "IPV4IPWLAN0='192.168.0.1/28'" if clashes with existing subnet
 
 - d) `nano hostapd.accept`	# If variable "***MACADDRACL***" set to "1" then add MAC addresses of clients allowed to connect to ***pi-ap*** before executing script
 
 - e) `sudo ./install.sh`	# Execute the install script which will call all the other scripts in the repo.
 
-- f) `cd ..;rm -rf pi-ap`	# Optionally delete the repo after "***install.sh***" completes. 
+- f) `cd ..;rm -rf pi-ap`	# Optionally delete the repo after "***install.sh***" completes.
+
+- g) Change Default Pi Password!  SSH into Pi and change the default **HOST** password of "raspberry":  ssh pi@192.168.0.1.  Then execute `sudo su -` and `passwd pi`
 
 # 8. TROUBLESHOOTING
+--
 A suggested _non-exhausitive_ list of things to investigate if ***pi-ap*** broken:
 
 - ***sudo ufw status***: Check FW not disabled. Needs to be up or masquerading in NAT table breaks
@@ -142,6 +154,7 @@ A suggested _non-exhausitive_ list of things to investigate if ***pi-ap*** broke
 
 
 # 9. USEFUL LINKS
+--
+Placeholder at present...
 
-
-Well, I think that about covers it...
+Well, I think that about covers it.  Not a lot really to do to configure a Pi into a working Access Point with this pile of scripts...
