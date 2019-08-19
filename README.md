@@ -4,15 +4,20 @@
 
 \# Source:	https://github.com/f1linux/pi-ap
 
-# Version:	01.02.00
+# Version:	01.03.00
+
+\# License:	GPL 3.0
 
 \# Script Author:        Terrence Houlahan Linux & Network Engineer
 
 \# Contact:              houlahan@F1Linux.com
 
+\# Linkedin:				www.linkedin.com/in/terrencehoulahan
+
 
 # README CONTENTS:
 --
+
 1.  ABOUT "pi-ap"
 2.  USE-CASES
 3.  COMPATIBILITY
@@ -26,6 +31,7 @@
 
 # 1. ABOUT "pi-ap":
 --
+
 "***pi-ap***" is a series of **bash scripts** that automates configuration of below standardized packages to transform a PI into a wireless Access Point ("AP"):
 
 - ***hostapd***: Probably the most widely used package for creating an AP in Linux and a standard
@@ -41,6 +47,7 @@ Other host configuration is performed, but the foregoing are the key packages re
 
 # 2. USE-CASES
 --
+
 ***pi-ap*** is NOT meant to replace enterprise class AP systems which offer beefier hardware and joined-up management interfaces for building or campus deployments.
 The obvious use cases for these scripts is:
 
@@ -53,13 +60,17 @@ The obvious use cases for these scripts is:
 
 # 3. COMPATIBILITY
 --
+
 These scripts have been tested on the following Pi models & OSs and found to work correctly:
 
-- Pi 3B+ Running Raspbian Stretch
+- Pi 3B+:	Raspbian Stretch (2019-04-08) and Buster (2019-07-10)
+
+- Pi 4:		Raspbian Buster (2019-07-10)
 
 
 # 4. FEATURES
 --
+
 - **No Subnetting Required**: DHCP IP pool for connecting clients is automatically calculated from a single IP and mask you specify
 
 - **MAC Address Restriction**: In addition to restricting by password you also have the ability to restrict by hardware address of connecting devices
@@ -72,11 +83,14 @@ These scripts have been tested on the following Pi models & OSs and found to wor
 
 # 5. LICENSE
 --
+
 Terrence Houlahan developed "***pi-ap***" and opensources it under the terms of the GPL 3.0 License that is distributed with my repo source files
 
 # 6. HARDWARE REQUIREMENTS
-**NON-POE**:
 --
+**NON-POE**:
+---
+
 A long Ethernet cable, a Pi and a power supply are the minimum requirements.
 
 **HOWEVER**: Using an AP implies covering an area the antenna(s) of the router cannot itself reach.
@@ -84,7 +98,7 @@ At such a distance- probably greater than 40 feet- or any distance their is not 
 using a single Ethernet cable for both **Data + Power** becomes more interesting.
 
 **POE**:
---
+---
 POE gear I have had success with- YMMV- with my Pi applications is
 
 - **Ethernet Cable**: A Tripp Lite Cat6 24 AWG Ethernet Cable is suggested (for most use cases). Amazon sells them in various lengths & colours
@@ -99,6 +113,7 @@ I discuss POE gear and perform a ***cost*** vs. ***benefit*** analysis at below 
 
 # 7. INSTALLATION & CONFIGURATION:
 --
+
 **Hardware Configuration**:
 ---
 
@@ -116,20 +131,33 @@ Either using a local or SSH connection to the Pi execute the following commands:
 
 - a) `git clone https://github.com/f1linux/pi-ap`
 
-- b) `cd pi-ap`
+- b) Change Default Pi Password! Open a terminal and execute `sudo su -` and `passwd pi`
 
-- c) `nano variables.sh`	# Modify default variable values, particularly default **AP password** in "APWPA2PASSWD" and AP's default networking in "IPV4IPWLAN0='192.168.0.1/28'" if clashes with existing subnet
+- c) `cd pi-ap`
 
-- d) `nano hostapd.accept`	# If variable "***MACADDRACL***" set to "1" then add MAC addresses of clients allowed to connect to ***pi-ap*** before executing script
+- d) `nano variables.sh`	# Modify default variable values, particularly default **AP password** in "APWPA2PASSWD" and AP's default networking in "IPV4IPWLAN0='192.168.0.1/28'" if clashes with existing subnet
 
-- e) `sudo ./install.sh`	# Execute the install script which will call all the other scripts in the repo.
+- e) `nano hostapd.accept`	# If variable "***MACADDRACL***" set to "1" then add MAC addresses of clients allowed to connect to ***pi-ap*** before executing script
 
-- f) `cd ..;rm -rf pi-ap`	# Optionally delete the repo after "***install.sh***" completes.
+- f) `sudo ./install.sh`	# Execute the install script which will call all the other scripts in the repo.
 
-- g) Change Default Pi Password!  SSH into Pi and change the default **HOST** password of "raspberry":  ssh pi@192.168.0.1.  Then execute `sudo su -` and `passwd pi`
+- g) `cd ..;rm -rf pi-ap`	# Optionally delete the repo after "***install.sh***" completes.
 
-# 8. TROUBLESHOOTING
+# 8 Connecting to AP:
 --
+
+After setup completes, to connect to your new Pi Access Point:
+
+- a) Connect to the AP by its SSID which should now appear in your list of Wireless Networks with the password you set for it in `variables.s`
+
+- ssh pi@192.168.0.1
+
+You're in.
+
+
+# 9. TROUBLESHOOTING
+--
+
 A suggested _non-exhausitive_ list of things to investigate if ***pi-ap*** broken:
 
 - ***sudo ufw status***: Check FW not disabled. Needs to be up or masquerading in NAT table breaks
@@ -155,6 +183,10 @@ A suggested _non-exhausitive_ list of things to investigate if ***pi-ap*** broke
 
 # 9. USEFUL LINKS
 --
+
 Placeholder at present...
 
 Well, I think that about covers it.  Not a lot really to do to configure a Pi into a working Access Point with this pile of scripts...
+
+Terrence Houlahan, Linux & Network Engineer F1Linux.com
+www.linkedin.com/in/terrencehoulahan

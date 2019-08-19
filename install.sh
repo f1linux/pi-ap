@@ -4,11 +4,12 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.02.00
+# Version:	01.03.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
 # Contact:              houlahan@F1Linux.com
+# Linkedin:				www.linkedin.com/in/terrencehoulahan
 
 
 # Do not edit below sources  
@@ -126,6 +127,16 @@ systemctl status dnsmasq.service --no-pager 2>> $PATHLOGSCRIPTS/install.log
 echo
 echo
 
+
+echo
+echo
+systemctl status wpa_supplicant 2>> $PATHLOGSCRIPTS/install.log
+echo
+echo
+
+
+
+
 echo '###################################################################################################'
 
 echo
@@ -156,15 +167,6 @@ rfkill list
 echo
 echo
 
-echo "Show radio Status: $(tput setaf 4)nmcli radio$(tput sgr 0)":
-nmcli radio
-echo
-echo
-
-echo "Show $(tput setaf 4)NetworkManager$(tput sgr 0) managed interfaces: $(tput setaf 4)nmcli connection show$(tput sgr 0) :"
-nmcli connection show
-echo
-echo
 
 echo "Show $(tput setaf 4)systemd-networkd$(tput sgr 0) managed connections: $(tput setaf 4)networkctl list$(tput sgr 0) :"
 networkctl list

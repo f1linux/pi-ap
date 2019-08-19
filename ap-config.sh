@@ -1,14 +1,16 @@
 #!/bin/bash
   
-set -x
+#set -x
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.02.00
+# Version:	01.03.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
 # Contact:              houlahan@F1Linux.com
+# Linkedin:				www.linkedin.com/in/terrencehoulahan
+
 
 # Do not edit below sources
 source "${BASH_SOURCE%/*}/variables.sh"
@@ -89,6 +91,8 @@ echo
 #sed -i "s/#log-dhcp/log-dhcp/" /etc/dnsmasq.conf
 sed -i "s/#interface=/interface=$INTERFACEAP/" /etc/dnsmasq.conf
 sed -i "s|#dhcp-range=192.168.*,192.168.*,.*h|dhcp-range=$DHCPRANGE,$DHCPLEASETIMEHOURS\h|" /etc/dnsmasq.conf
+# Change default port dnsmasq listens on: it conflicts with systemd-resolved which grabs 5353
+sed -i "s/#port=5353/port=5454/" /etc/dnsmasq.conf 
 sed -i "s/#log-queries/log-queries/" /etc/dnsmasq.conf
 
 
@@ -181,7 +185,14 @@ echo
 ####### Create /etc/hostapd/hostapd.conf
 
 # Copy a default config which we will modify with sed afterwards:
-zcat /usr/share/doc/hostapd/examples/hostapd.conf.gz > /etc/hostapd/hostapd.conf
+
+# Older versions of hostapd use a compressed version of the specimen "hostapd.conf" file in "/usr/share/doc/hostapd/examples".  So we need a conditionnal test
+if [ -f /usr/share/doc/hostapd/examples/hostapd.conf.gz ]; then
+	zcat /usr/share/doc/hostapd/examples/hostapd.conf.gz > /etc/hostapd/hostapd.conf
+else
+	cp /usr/share/doc/hostapd/examples/hostapd.conf /etc/hostapd/
+fi
+
 
 
 echo
