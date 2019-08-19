@@ -4,7 +4,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.03.00
+# Version:	01.04.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -15,7 +15,6 @@
 # Do not edit below sources  
 source "${BASH_SOURCE%/*}/variables.sh"
 source "${BASH_SOURCE%/*}/functions.sh"
-
 
 
 echo
@@ -73,6 +72,15 @@ echo "$(tput setaf 5)****** Kernel: Driver Loading/Unloading and Setting Kernel 
 echo
 
 ./kernel_modifications.sh 2>> $PATHLOGSCRIPTS/install.log
+
+
+
+
+echo
+echo "$(tput setaf 5)****** DNS: systemd-resolved  ******$(tput sgr 0)"
+echo
+
+./dns.sh 2>> $PATHLOGSCRIPTS/install.log
 
 
 

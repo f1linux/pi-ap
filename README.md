@@ -4,7 +4,7 @@
 
 \# Source:	https://github.com/f1linux/pi-ap
 
-# Version:	01.03.00
+# Version:	01.04.00
 
 \# License:	GPL 3.0
 
@@ -16,7 +16,6 @@
 
 
 # README CONTENTS:
---
 
 1.  ABOUT "pi-ap"
 2.  USE-CASES
@@ -30,7 +29,6 @@
 
 
 # 1. ABOUT "pi-ap":
---
 
 "***pi-ap***" is a series of **bash scripts** that automates configuration of below standardized packages to transform a PI into a wireless Access Point ("AP"):
 
@@ -46,7 +44,6 @@ Other host configuration is performed, but the foregoing are the key packages re
 
 
 # 2. USE-CASES
---
 
 ***pi-ap*** is NOT meant to replace enterprise class AP systems which offer beefier hardware and joined-up management interfaces for building or campus deployments.
 The obvious use cases for these scripts is:
@@ -59,7 +56,6 @@ The obvious use cases for these scripts is:
 
 
 # 3. COMPATIBILITY
---
 
 These scripts have been tested on the following Pi models & OSs and found to work correctly:
 
@@ -69,7 +65,6 @@ These scripts have been tested on the following Pi models & OSs and found to wor
 
 
 # 4. FEATURES
---
 
 - **No Subnetting Required**: DHCP IP pool for connecting clients is automatically calculated from a single IP and mask you specify
 
@@ -82,16 +77,22 @@ These scripts have been tested on the following Pi models & OSs and found to wor
 - **Crypto uses Hardware Random Number Generator ("RNG")**: Entropy generated via hardware RNG using ***rng-tools***
 
 # 5. LICENSE
---
 
 Terrence Houlahan developed "***pi-ap***" and opensources it under the terms of the GPL 3.0 License that is distributed with my repo source files
 
 # 6. HARDWARE REQUIREMENTS
---
+
+Pi Case:
+---
+
+**AVOID METAL CASES!!!** If you wrap a metal case around your Pi it is going to cause Layer 1 problems by impeding the signal.
+
+Probably worth trying a few different cases of differing materials to see which gives you the best result in respect to signal performance.
+
 **NON-POE**:
 ---
 
-A long Ethernet cable, a Pi and a power supply are the minimum requirements.
+A long Ethernet cable, a Pi and a power supply are minimum requirements.
 
 **HOWEVER**: Using an AP implies covering an area the antenna(s) of the router cannot itself reach.
 At such a distance- probably greater than 40 feet- or any distance their is not a mains outlet to power the Pi,
@@ -99,7 +100,8 @@ using a single Ethernet cable for both **Data + Power** becomes more interesting
 
 **POE**:
 ---
-POE gear I have had success with- YMMV- with my Pi applications is
+
+POE gear I have had success with- YMMV- with my Pi applications is:
 
 - **Ethernet Cable**: A Tripp Lite Cat6 24 AWG Ethernet Cable is suggested (for most use cases). Amazon sells them in various lengths & colours
 
@@ -112,7 +114,6 @@ I discuss POE gear and perform a ***cost*** vs. ***benefit*** analysis at below 
 [choosing-a-pi4-power-supply](https://raspberrypi.stackexchange.com/questions/99983/choosing-a-pi4-power-supply/99986#99986)
 
 # 7. INSTALLATION & CONFIGURATION:
---
 
 **Hardware Configuration**:
 ---
@@ -123,6 +124,7 @@ NOTE: You can connect a "***pi-ap**" to some intermediate router but you will of
 
 **Software Configuration**:
 ---
+
 All the complex configuration is abstracted into a centralized variables file named "***variables.sh***". This file is sourced by all repo scripts.
 Edit this file in ***nano*** to modify default values and execute ***install.sh***. All the other scripts are chained off of ***install.sh***
 That it to achieve a working Pi AP
@@ -144,7 +146,6 @@ Either using a local or SSH connection to the Pi execute the following commands:
 - g) `cd ..;rm -rf pi-ap`	# Optionally delete the repo after "***install.sh***" completes.
 
 # 8 Connecting to AP:
---
 
 After setup completes, to connect to your new Pi Access Point:
 
@@ -156,7 +157,6 @@ You're in.
 
 
 # 9. TROUBLESHOOTING
---
 
 A suggested _non-exhausitive_ list of things to investigate if ***pi-ap*** broken:
 
@@ -182,9 +182,8 @@ A suggested _non-exhausitive_ list of things to investigate if ***pi-ap*** broke
 
 
 # 9. USEFUL LINKS
---
 
-Placeholder at present...
+Placeholder
 
 Well, I think that about covers it.  Not a lot really to do to configure a Pi into a working Access Point with this pile of scripts...
 
