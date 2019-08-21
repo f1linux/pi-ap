@@ -4,7 +4,7 @@
 
 \# Source:	https://github.com/f1linux/pi-ap
 
-# Version:	01.04.00
+# Version:	01.04.01
 
 \# License:	GPL 3.0
 
@@ -118,7 +118,7 @@ I discuss POE gear and perform a ***cost*** vs. ***benefit*** analysis at below 
 **Hardware Configuration**:
 ---
 
-- Connect the Pi to a DHCP-enabled Ethernet port in a router configured with Internet connection or a switch connected to this router.
+- Connect the Pi's `eth0` port to a DHCP-enabled port in a router configured with Internet connection or a switch connected to this router.
 
 NOTE: You can connect a "***pi-ap**" to some intermediate router but you will of course have to configure the routing so the Pi can reach the router with the Internet connection.
 
@@ -188,4 +188,5 @@ Placeholder
 Well, I think that about covers it.  Not a lot really to do to configure a Pi into a working Access Point with this pile of scripts...
 
 Terrence Houlahan, Linux & Network Engineer F1Linux.com
+
 www.linkedin.com/in/terrencehoulahan
