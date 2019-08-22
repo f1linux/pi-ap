@@ -2,7 +2,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.04.01
+# Version:	01.05.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -15,7 +15,12 @@ source "${BASH_SOURCE%/*}/variables.sh"
 source "${BASH_SOURCE%/*}/functions.sh"
 
 
-# NOTE: IPv6 does NAT and therefore does not require masquerading as configured in the IPv4 rules.
+# Enable Forwarding in the Kernel
+sed -i "s|#net/ipv6/conf/default/forwarding=1|net/ipv6/conf/default/forwarding=1|" /etc/ufw/sysctl.conf
+sed -i "s|#net/ipv6/conf/all/forwarding=1|net/ipv6/conf/all/forwarding=1|" /etc/ufw/sysctl.conf
+
+
+# NOTE: IPv6 does *not* NAT and therefore does not require masquerading as configured in IPv4 rules.
 
 rm /etc/ufw/user6.rules
 

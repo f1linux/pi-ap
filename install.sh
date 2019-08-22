@@ -4,7 +4,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.04.01
+# Version:	01.05.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -28,6 +28,19 @@ echo "This is free software and you are welcome to redistribute it under certain
 echo "Consult * LICENSE.txt * for full terms of GPL 3 License and conditions of use."
 
 read -p "Press ENTER to accept GPL v3 license terms to continue or terminate this bash shell to exit script"
+
+
+
+# Check for a router uplink on the Pi:
+if [[ $(ip addr list|grep 'NO-CARRIER') != '' ]]; then
+
+        echo
+        echo 'No Router Uplink Connected to Raspberry Pi eth0 interface'
+        echo
+        echo 'Please connect and re-execute this install script; EXITING'
+        echo
+        exit
+fi
 
 
 
