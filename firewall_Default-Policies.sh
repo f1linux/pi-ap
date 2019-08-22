@@ -2,7 +2,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.04.01
+# Version:	01.05.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -28,7 +28,7 @@ IPV6=yes
 
 # Set the default input policy to ACCEPT, DROP, or REJECT. Please note that if
 # you change this you will most likely want to adjust your rules.
-DEFAULT_INPUT_POLICY="ACCEPT"
+DEFAULT_INPUT_POLICY="DROP"
 
 # Set the default output policy to ACCEPT, DROP, or REJECT. Please note that if
 # you change this you will most likely want to adjust your rules.

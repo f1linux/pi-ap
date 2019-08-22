@@ -2,7 +2,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.04.01
+# Version:	01.05.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -15,13 +15,16 @@ source "${BASH_SOURCE%/*}/variables.sh"
 source "${BASH_SOURCE%/*}/functions.sh"
 
 
+
+# Enable Forwarding between the eth0 and wlan0 Interfaces
+sed -i "s|#net/ipv4/ip_forward=1|net/ipv4/ip_forward=1|" /etc/ufw/sysctl.conf
+
+
 # Append the NAT table to the bottom of /etc/ufw/before.rules
 # Masquerading is done here:
 echo "*nat" >> /etc/ufw/before.rules
 echo ":POSTROUTING ACCEPT [0:0]" >> /etc/ufw/before.rules
-
-echo "-A POSTROUTING -s $IPV4IPWLAN0 -o $INTERFACEMASQUERADED -j MASQUERADE" >> /etc/ufw/before.rules
-echo "">> /etc/ufw/before.rules
+echo "-A POSTROUTING -s 0.0.0.0/0 -o $INTERFACEMASQUERADED -j MASQUERADE" >> /etc/ufw/before.rules
 echo "COMMIT" >> /etc/ufw/before.rules
 
 
@@ -32,15 +35,6 @@ cat <<EOF> /etc/ufw/user.rules
 #
 # PLEASE NOTE: These FW rules are restored by script on every reboot
 #
-# nat Table rules
-*nat
-:POSTROUTING ACCEPT [0:0]
-
-# Config Masquerading on the AP interface
--A POSTROUTING -s $IPV4IPWLAN0 -o $INTERFACEAP -j MASQUERADE
-
-# Don't delete 'COMMIT' line or NAT table rules will not be processed
-COMMIT
 
 *filter
 :ufw-user-input - [0:0]
@@ -62,20 +56,17 @@ COMMIT
 ### RULES ###
 
 ### tuple ### allow any 22 0.0.0.0/0 any 0.0.0.0/0 in
-# Required for SSH
 -A ufw-user-input -p tcp --dport 22 -j ACCEPT
+-A ufw-user-input -p udp --dport 22 -j ACCEPT
 
 ### tuple ### allow any 53 0.0.0.0/0 any 0.0.0.0/0 DNS - out
-# Required for DNS which uses both TCP and UDP
 -A ufw-user-output -p tcp --dport 53 -j ACCEPT -m comment --comment 'dapp_DNS'
 -A ufw-user-output -p udp --dport 53 -j ACCEPT -m comment --comment 'dapp_DNS'
 
 ### tuple ### allow udp 123 0.0.0.0/0 any 0.0.0.0/0 out
-# Required to update system time via NTP
 -A ufw-user-output -p udp --dport 123 -j ACCEPT
 
 ### tuple ### allow tcp 443 0.0.0.0/0 any 0.0.0.0/0 out
-# Required for package management
 -A ufw-user-output -p tcp --dport 443 -j ACCEPT
 
 ### tuple ### allow tcp 67:68 0.0.0.0/0 any 0.0.0.0/0 in
@@ -87,22 +78,44 @@ COMMIT
 ### tuple ### allow udp 68 0.0.0.0/0 any 0.0.0.0/0 out
 -A ufw-user-output -p udp --dport 68 -j ACCEPT
 
-### tuple ### allow tcp 8000 0.0.0.0/0 any 0.0.0.0/0 in
-# Requested by Client
--A ufw-user-input -p tcp --dport 8000 -j ACCEPT
+### tuple ### allow udp 53 0.0.0.0/0 any 192.168.0.0/28 in
+-A ufw-user-input -p udp --dport 53 -s 192.168.0.0/28 -j ACCEPT
 
-### tuple ### allow tcp 8883 0.0.0.0/0 any 0.0.0.0/0 in
-# Requested by Client
--A ufw-user-input -p tcp --dport 8883 -j ACCEPT
+### tuple ### allow tcp 53 0.0.0.0/0 any 192.168.0.0/28 in
+-A ufw-user-input -p tcp --dport 53 -s 192.168.0.0/28 -j ACCEPT
 
-### ok icmp code for FORWARD
--A ufw-user-output -p icmp --icmp-type destination-unreachable -j ACCEPT
--A ufw-user-output -p icmp --icmp-type time-exceeded -j ACCEPT
--A ufw-user-output -p icmp --icmp-type parameter-problem -j ACCEPT
--A ufw-user-output -p icmp --icmp-type echo-request -j ACCEPT
+### tuple ### allow tcp 80 0.0.0.0/0 any 192.168.0.0/28 in
+-A ufw-user-input -p tcp --dport 80 -s 192.168.0.0/28 -j ACCEPT
 
-### tuple ### allow any any 0.0.0.0/0 any 10.0.60.0/24 in
--A ufw-user-input -s 10.0.60.0/24 -j ACCEPT
+### tuple ### allow tcp 443 0.0.0.0/0 any 192.168.0.0/28 in
+-A ufw-user-input -p tcp --dport 443 -s 192.168.0.0/28 -j ACCEPT
+
+### tuple ### allow udp 5353 0.0.0.0/0 any 192.168.0.0/28 in
+-A ufw-user-input -p udp --dport 5353 -s 192.168.0.0/28 -j ACCEPT
+
+### tuple ### route:allow tcp 80 0.0.0.0/0 any 0.0.0.0/0 in_eth0!out_wlan0
+-A ufw-user-forward -i eth0 -o wlan0 -p tcp --dport 80 -j ACCEPT
+
+### tuple ### route:allow tcp 80 0.0.0.0/0 any 0.0.0.0/0 in_wlan0!out_eth0
+-A ufw-user-forward -i wlan0 -o eth0 -p tcp --dport 80 -j ACCEPT
+
+### tuple ### route:allow tcp 443 0.0.0.0/0 any 0.0.0.0/0 in_eth0!out_wlan0
+-A ufw-user-forward -i eth0 -o wlan0 -p tcp --dport 443 -j ACCEPT
+
+### tuple ### route:allow tcp 443 0.0.0.0/0 any 0.0.0.0/0 in_wlan0!out_eth0
+-A ufw-user-forward -i wlan0 -o eth0 -p tcp --dport 443 -j ACCEPT
+
+### tuple ### route:allow tcp 53 0.0.0.0/0 any 0.0.0.0/0 in_eth0!out_wlan0
+-A ufw-user-forward -i eth0 -o wlan0 -p tcp --dport 53 -j ACCEPT
+
+### tuple ### route:allow tcp 53 0.0.0.0/0 any 0.0.0.0/0 in_wlan0!out_eth0
+-A ufw-user-forward -i wlan0 -o eth0 -p tcp --dport 53 -j ACCEPT
+
+### tuple ### route:allow udp 53 0.0.0.0/0 any 0.0.0.0/0 in_eth0!out_wlan0
+-A ufw-user-forward -i eth0 -o wlan0 -p udp --dport 53 -j ACCEPT
+
+### tuple ### route:allow udp 53 0.0.0.0/0 any 0.0.0.0/0 in_wlan0!out_eth0
+-A ufw-user-forward -i wlan0 -o eth0 -p udp --dport 53 -j ACCEPT
 
 ### END RULES ###
 

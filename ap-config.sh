@@ -4,7 +4,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.04.01
+# Version:	01.05.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -94,6 +94,9 @@ sed -i "s|#dhcp-range=192.168.*,192.168.*,.*h|dhcp-range=$DHCPRANGE,$DHCPLEASETI
 # Change default port dnsmasq listens on: it conflicts with systemd-resolved which grabs 5353
 sed -i "s/#port=5353/port=5454/" /etc/dnsmasq.conf 
 sed -i "s/#log-queries/log-queries/" /etc/dnsmasq.conf
+
+# Below sets the nameservers WiFi clients are assigned by dnsmasq
+echo >> "dhcp-option=6,$(echo $IPV4IPWLAN0 |cut -d '/' -f1),$DNSRESOLVER1WIFICLIENTS" /etc/hostapd/hostapd.conf
 
 
 # If dnsmasq not set to execute as a daemon then enable it by changing value from "0" to "1":
@@ -214,6 +217,8 @@ sed -i "s/^interface=.*/interface=$INTERFACEAP/" /etc/hostapd/hostapd.conf
 sed -i "s/# driver=hostap/driver=nl80211/" /etc/hostapd/hostapd.conf
 sed -i "s/channel=.*/channel=$CHANNEL/" /etc/hostapd/hostapd.conf
 sed -i "s/hw_mode=g/hw_mode=$HWMODE/" /etc/hostapd/hostapd.conf
+sed -i "s/#ieee80211ac=1/ieee80211ac=$MODE80211AC/" /etc/hostapd/hostapd.conf
+
 # Disable multi-antenna support: Pi only has a single WiFi antenna.
 sed -i "s/#ieee80211n=1/ieee80211n=0/" /etc/hostapd/hostapd.conf
 sed -i "s/#local_pwr_constraint=3/local_pwr_constraint=3/" /etc/hostapd/hostapd.conf
@@ -229,6 +234,7 @@ sed -i "s/#ieee80211h=1/ieee80211h=1/" /etc/hostapd/hostapd.conf
 # auth_algs: 1=wpa 2=wep 3=both
 sed -i "s/auth_algs=3/auth_algs=1/" /etc/hostapd/hostapd.conf
 sed -i "s/#wpa=1/wpa=2/" /etc/hostapd/hostapd.conf
+sed -i "s/#wpa=2/wpa=2/" /etc/hostapd/hostapd.conf
 sed -i "s/#wpa_key_mgmt=WPA-PSK WPA-EAP/wpa_key_mgmt=WPA-PSK/" /etc/hostapd/hostapd.conf
 sed -i "s/#wpa_passphrase=secret passphrase/wpa_passphrase=$APWPA2PASSWD/" /etc/hostapd/hostapd.conf
 sed -i "s/#wpa_pairwise=TKIP CCMP/wpa_pairwise=TKIP/" /etc/hostapd/hostapd.conf
