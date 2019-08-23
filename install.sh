@@ -4,7 +4,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.05.00
+# Version:	01.05.01
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -32,7 +32,7 @@ read -p "Press ENTER to accept GPL v3 license terms to continue or terminate thi
 
 
 # Check for a router uplink on the Pi:
-if [[ $(ip addr list|grep 'NO-CARRIER') != '' ]]; then
+if [[ $(ip addr list|grep eth0|grep 'NO-CARRIER') != '' ]]; then
 
         echo
         echo 'No Router Uplink Connected to Raspberry Pi eth0 interface'

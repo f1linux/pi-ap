@@ -4,7 +4,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.05.00
+# Version:	01.05.01
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -96,7 +96,7 @@ sed -i "s/#port=5353/port=5454/" /etc/dnsmasq.conf
 sed -i "s/#log-queries/log-queries/" /etc/dnsmasq.conf
 
 # Below sets the nameservers WiFi clients are assigned by dnsmasq
-echo >> "dhcp-option=6,$(echo $IPV4IPWLAN0 |cut -d '/' -f1),$DNSRESOLVER1WIFICLIENTS" /etc/hostapd/hostapd.conf
+echo "dhcp-option=6,$(echo $IPV4IPWLAN0 |cut -d '/' -f1),$DNSRESOLVER1WIFICLIENTS" >> /etc/dnsmasq.conf
 
 
 # If dnsmasq not set to execute as a daemon then enable it by changing value from "0" to "1":
