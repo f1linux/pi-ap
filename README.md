@@ -4,7 +4,7 @@
 
 \# Source:	https://github.com/f1linux/pi-ap
 
-# Version:	01.06.00
+# Version:	01.07.00
 
 \# License:	GPL 3.0
 
@@ -186,7 +186,7 @@ A suggested _non-exhausitive_ list of things to investigate if ***pi-ap*** broke
 
 # 10. USEFUL LINKS:
 
-[Pi-AP YouTube Channel: F1Linux](www.YouTube.com/user/LinuxEngineer)
+[Pi-AP YouTube Channel: F1Linux](https://www.YouTube.com/user/LinuxEngineer)
 
 [Pi-AP Wiki: Github](https://github.com/f1linux/pi-ap/wiki)
 
