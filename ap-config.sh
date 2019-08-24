@@ -4,7 +4,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.05.01
+# Version:	01.06.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -217,7 +217,14 @@ sed -i "s/^interface=.*/interface=$INTERFACEAP/" /etc/hostapd/hostapd.conf
 sed -i "s/# driver=hostap/driver=nl80211/" /etc/hostapd/hostapd.conf
 sed -i "s/channel=.*/channel=$CHANNEL/" /etc/hostapd/hostapd.conf
 sed -i "s/hw_mode=g/hw_mode=$HWMODE/" /etc/hostapd/hostapd.conf
-sed -i "s/#ieee80211ac=1/ieee80211ac=$MODE80211AC/" /etc/hostapd/hostapd.conf
+
+# Only enable directive "ieee80211ac" if dependency on "hw_mode" is met in /etc/hostapd/hostapd.conf:
+if [[ $MODE80211AC = '1' ]] && [[ $HWMODE = 'a' ]]; then
+        sed -i "s/#ieee80211ac=1/ieee80211ac=$MODE80211AC/" /etc/hostapd/hostapd.conf
+else
+        echo 'Please set directive "hw_mode" to "a" in /etc/hostapd/hostapd.conf before enabling directive "ieee80211ac"'
+fi
+
 
 # Disable multi-antenna support: Pi only has a single WiFi antenna.
 sed -i "s/#ieee80211n=1/ieee80211n=0/" /etc/hostapd/hostapd.conf
@@ -239,8 +246,24 @@ sed -i "s/#wpa_key_mgmt=WPA-PSK WPA-EAP/wpa_key_mgmt=WPA-PSK/" /etc/hostapd/host
 sed -i "s/#wpa_passphrase=secret passphrase/wpa_passphrase=$APWPA2PASSWD/" /etc/hostapd/hostapd.conf
 sed -i "s/#wpa_pairwise=TKIP CCMP/wpa_pairwise=TKIP/" /etc/hostapd/hostapd.conf
 sed -i "s/#rsn_pairwise=CCMP/rsn_pairwise=CCMP/" /etc/hostapd/hostapd.conf
-sed -i "s/macaddr_acl=0/macaddr_acl=$MACADDRACL/" /etc/hostapd/hostapd.conf
-sed -i "s|#accept_mac_file=/etc/hostapd.accept|accept_mac_file=/etc/hostapd.accept|" /etc/hostapd/hostapd.conf
+
+
+# Copy file with MAC Addresses of devices allowed to connect to AP
+cp $PATHSCRIPTS/hostapd.accept /etc/
+chmod 600 /etc/hostapd.accept
+chown root:root /etc/hostapd.accept
+
+
+if [[ $(grep [[:alnum:]] /etc/hostapd.accept) = '' ]]; then
+	echo
+	echo 'Please provide at least 1 MAC Address to "hostapd.accept" before enabling "macaddr_acl" directive in "/etc/hostapd/hostapd.conf"'
+	echo 'Client MAC Address Whitelisting Remains DISABLED'
+	echo
+else
+	sed -i "s/macaddr_acl=0/macaddr_acl=$MACADDRACL/" /etc/hostapd/hostapd.conf
+	sed -i "s|#accept_mac_file=/etc/hostapd.accept|accept_mac_file=/etc/hostapd.accept|" /etc/hostapd/hostapd.conf
+fi
+
 
 
 echo
@@ -251,11 +274,6 @@ echo
 
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=380632
 chmod 600 /etc/hostapd/hostapd.conf
-
-# Copy file with MAC Addresses of devices allowed to connect to AP
-cp $PATHSCRIPTS/hostapd.accept /etc/
-chmod 600 /etc/hostapd.accept
-chown root:root /etc/hostapd.accept
 
 
 # Configure hostapd process as daemon:

@@ -2,7 +2,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.05.01
+# Version:	01.06.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -14,6 +14,14 @@
 source "${BASH_SOURCE%/*}/variables.sh"
 source "${BASH_SOURCE%/*}/functions.sh"
 
+
+# Below variables can be used to specify the subnetting of the eth0 interface in UFW rules or elsewhere
+IPV4IPETH0="$(ip addr list|grep 'eth0'|awk 'FNR==2'|awk '{print $2}')"
+IPV4SUBNETETH0="$(sipcalc $IPV4IPETH0|awk 'FNR==7'|awk '{print $4}')"
+IPV4SUBNETMASKETH0="$(sipcalc $IPV4IPETH0|awk 'FNR==9'|awk '{print $5}')"
+
+# ie: the following would give you the subnet and mask of eth0 if you source this variables.sh file
+#	$IPV4SUBNETETH0/$IPV4SUBNETMASKETH0
 
 
 # Enable Forwarding between the eth0 and wlan0 Interfaces
