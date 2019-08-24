@@ -2,7 +2,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.06.00
+# Version:	01.07.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -16,9 +16,10 @@ source "${BASH_SOURCE%/*}/functions.sh"
 
 
 # Below variables can be used to specify the subnetting of the eth0 interface in UFW rules or elsewhere
-IPV4IPETH0="$(ip addr list|grep 'eth0'|awk 'FNR==2'|awk '{print $2}')"
-IPV4SUBNETETH0="$(sipcalc $IPV4IPETH0|awk 'FNR==7'|awk '{print $4}')"
-IPV4SUBNETMASKETH0="$(sipcalc $IPV4IPETH0|awk 'FNR==9'|awk '{print $5}')"
+IPV4IPETH0="$(ip addr list|grep 'eth0'|awk 'FNR==2'|awk '{print $2}'|cut -d '/' -f1)"
+IPV4SUBNETMASKETH0="$(ip addr list|grep 'eth0'|awk 'FNR==2'|awk '{print $2}'|cut -d '/' -f2)"
+IPV4SUBNETETH0="$(sipcalc $IPV4IPETH0/$IPV4SUBNETMASKETH0|awk 'FNR==7'|awk '{print $4}')/$IPV4SUBNETMASKETH0"
+
 
 # ie: the following would give you the subnet and mask of eth0 if you source this variables.sh file
 #	$IPV4SUBNETETH0/$IPV4SUBNETMASKETH0
@@ -27,14 +28,20 @@ IPV4SUBNETMASKETH0="$(sipcalc $IPV4IPETH0|awk 'FNR==9'|awk '{print $5}')"
 # Enable Forwarding between the eth0 and wlan0 Interfaces
 sed -i "s|#net/ipv4/ip_forward=1|net/ipv4/ip_forward=1|" /etc/ufw/sysctl.conf
 
+#
+# Port-forwarding DNS queries to systemd-resolved. Apparently designed to not be exposed to external hosts:
+# https://unix.stackexchange.com/questions/445782/how-to-allow-systemd-resolved-to-listen-to-an-interface-other-than-loopback
 
-# Append the NAT table to the bottom of /etc/ufw/before.rules
-# Masquerading is done here:
+# Append NAT table to bottom of /etc/ufw/before.rules
+# Masquerading happens here:
 echo "*nat" >> /etc/ufw/before.rules
+#echo ":PREROUTING ACCEPT [0:0]" >> /etc/ufw/before.rules
 echo ":POSTROUTING ACCEPT [0:0]" >> /etc/ufw/before.rules
+echo "-F" >> /etc/ufw/before.rules
+#echo "-A PREROUTING -p udp -i wlan0 -d $(echo $IPV4IPWLAN0|cut -d '/' -f1) --dport 53 -j DNAT --to-destination 127.0.0.1:5353" >> /etc/ufw/before.rules
+#echo "-A PREROUTING -p udp -i wlan0 -d $IPV4IPETH0 --dport 53 -j DNAT --to-destination 127.0.0.1:5353" >> /etc/ufw/before.rules
 echo "-A POSTROUTING -s 0.0.0.0/0 -o $INTERFACEMASQUERADED -j MASQUERADE" >> /etc/ufw/before.rules
 echo "COMMIT" >> /etc/ufw/before.rules
-
 
 
 rm /etc/ufw/user.rules

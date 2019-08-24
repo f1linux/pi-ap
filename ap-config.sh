@@ -4,7 +4,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.06.00
+# Version:	01.07.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -92,11 +92,11 @@ echo
 sed -i "s/#interface=/interface=$INTERFACEAP/" /etc/dnsmasq.conf
 sed -i "s|#dhcp-range=192.168.*,192.168.*,.*h|dhcp-range=$DHCPRANGE,$DHCPLEASETIMEHOURS\h|" /etc/dnsmasq.conf
 # Change default port dnsmasq listens on: it conflicts with systemd-resolved which grabs 5353
-sed -i "s/#port=5353/port=5454/" /etc/dnsmasq.conf 
+sed -i "s/#port=5353/port=$DNSMASQPORT/" /etc/dnsmasq.conf
 sed -i "s/#log-queries/log-queries/" /etc/dnsmasq.conf
 
 # Below sets the nameservers WiFi clients are assigned by dnsmasq
-echo "dhcp-option=6,$(echo $IPV4IPWLAN0 |cut -d '/' -f1),$DNSRESOLVER1WIFICLIENTS" >> /etc/dnsmasq.conf
+echo "dhcp-option=6,$(echo $IPV4IPWLAN0 |cut -d '/' -f1),$DNSRESOLVER2WIFICLIENTS" >> /etc/dnsmasq.conf
 
 
 # If dnsmasq not set to execute as a daemon then enable it by changing value from "0" to "1":

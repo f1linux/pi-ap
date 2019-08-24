@@ -4,7 +4,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.06.00
+# Version:	01.07.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -29,6 +29,11 @@ IPV4IPWLAN0='192.168.0.1/28'
 SSIDNAME='RPI-AP1'
 # Password must be min 8 characters and must NOT include single quotes- these are used as delimiters to encase the password so other special characters do not expand in bash
 APWPA2PASSWD='cH4nG3M3'
+
+# Default port systemd-resolved start on '5353' collides with dnsmasq (which does the DHCP for WiFi clients) which also wants '5353' as its default port.
+# If you do not like the default value of 5454 feel free to set it to a different one:
+DNSMASQPORT='5454'
+
 
 # Nameservers WiFi clients are assigned by dnsmasq:
 # NOTE: First resolver is the systemd-resolved stub resolver the Pi AP where names can be reolved from cached queries before reaching out to a DNS resolver on the Internet:
