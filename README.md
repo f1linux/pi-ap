@@ -4,7 +4,7 @@
 
 \# Source:	https://github.com/f1linux/pi-ap
 
-# Version:	01.05.01
+# Version:	01.06.00
 
 \# License:	GPL 3.0
 
@@ -24,8 +24,9 @@
 5.  LICENSE
 6.  HARDWARE REQUIREMENTS
 7.  INSTALLATION
-8.  TROUBLESHOOTING
-9.  USEFUL LINKS
+8.  CONNECTING TO AP
+9.  TROUBLESHOOTING
+10. USEFUL LINKS: 	Wiki & YouTube Channel
 
 
 # 1. ABOUT "pi-ap":
@@ -38,7 +39,7 @@
 
 - ***dhcpcd***: Interface management
 
-- ***dnsmasq***: DHCP for connecting AP clients
+- ***dnsmasq***: DHCP for connecting AP clients:  Assigns IPs and the DNS servers clients should use
 
 Other host configuration is performed, but the foregoing are the key packages related to delivering the AP functionality
 
@@ -67,6 +68,8 @@ These scripts have been tested on the following Pi models & OSs and found to wor
 # 4. FEATURES
 
 - **No Subnetting Required**: DHCP IP pool for connecting clients is automatically calculated from a single IP and mask you specify
+
+- **Auto Config of WiFi Regulatory Zone**: This is derived from the Public IP you are NATing out from and ensures you cannot make an error setting it
 
 - **MAC Address Restriction**: In addition to restricting by password you also have the ability to restrict by hardware address of connecting devices
 
@@ -137,7 +140,7 @@ Either using a local or SSH connection to the Pi execute the following commands:
 
 - c) `cd pi-ap`
 
-- d) `nano variables.sh`	# Modify default variable values, particularly default **AP password** in "APWPA2PASSWD" and AP's default networking in "IPV4IPWLAN0='192.168.0.1/28'" if clashes with existing subnet
+- d) `nano variables.sh`	# Modify default variable values. Most default values can be kept but change "APWPA2PASSWD" and if default WiFi subnet in "IPV4IPWLAN0='192.168.0.1/28' exists on your LAN set to a different subnet"
 
 - e) `nano hostapd.accept`	# If variable "***MACADDRACL***" set to "1" then add MAC addresses of clients allowed to connect to ***pi-ap*** before executing script
 
@@ -145,13 +148,13 @@ Either using a local or SSH connection to the Pi execute the following commands:
 
 - g) `cd ..;rm -rf pi-ap`	# Optionally delete the repo after "***install.sh***" completes.
 
-# 8 Connecting to AP:
+# 8. CONNECTING TO AP:
 
 After setup completes, to connect to your new Pi Access Point:
 
-- a) Connect to the AP by its SSID which should now appear in your list of Wireless Networks with the password you set for it in `variables.s`
+- a) Find its SSID inWireless Networks and connect with the password you set in variable "APWPA2PASSWD" when modifying `variables.sh`
 
-- ssh pi@192.168.0.1
+- ssh pi@192.168.0.1	# This is the default IP variable "IPV4IPWLAN0"
 
 You're in.
 
@@ -181,12 +184,16 @@ A suggested _non-exhausitive_ list of things to investigate if ***pi-ap*** broke
 - **No Clashing Subnets**: Variable "***IPV4IPWLAN0***" in ***variables.sh*** is used to setup the AP interface & create IP pool to assign addresses to connecting clients. Ensure "***IPV4IPWLAN0***" does not clash with any existing subnets
 
 
-# 9. USEFUL LINKS
+# 10. USEFUL LINKS:
 
-Placeholder
+[Pi-AP YouTube Channel: F1Linux](www.YouTube.com/user/LinuxEngineer)
 
-Well, I think that about covers it.  Not a lot really to do to configure a Pi into a working Access Point with this pile of scripts...
+[Pi-AP Wiki: Github](https://github.com/f1linux/pi-ap/wiki)
+
+
+
+I think that about covers it.  Not a lot really to do to configure a Pi into a working Access Point with this pile of scripts...
 
 Terrence Houlahan, Linux & Network Engineer F1Linux.com
 
-www.linkedin.com/in/terrencehoulahan
+[Linkedin: Terrence Houlahan](https://www.linkedin.com/in/terrencehoulahan)

@@ -4,7 +4,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.05.01
+# Version:	01.06.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -48,7 +48,14 @@ until apt-get -y update
 	do
 		echo
 		echo "$(tput setaf 5)apt-get update failed. Retrying$(tput sgr 0)"
-		echo "$(tput setaf 3)Check Internet Connection$(tput sgr 0)"
+		echo
+		echo "$(tput setaf 3)If TOTAL failure check Internet connection$(tput sgr 0)"
+		echo
+		echo "$(tput setaf 3)If PARTIAL Failure with Error:$(tput sgr 0)"
+		echo
+		echo "$(tput setaf 1)            E: Release file for <Repo URL> is not valid yet (invalid for another <time>). Updates for repository will not be applied$(tput sgr 0)"
+		echo
+		echo "$(tput setaf 3)Check Host Time is correct by executing: timedatectl$(tput sgr 0)"
 		echo
 	done
 
