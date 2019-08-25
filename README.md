@@ -4,7 +4,7 @@
 
 \# Source:	https://github.com/f1linux/pi-ap
 
-# Version:	01.07.00
+# Version:	01.10.00
 
 \# License:	GPL 3.0
 

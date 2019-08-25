@@ -4,7 +4,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.07.00
+# Version:	01.10.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -15,6 +15,8 @@
 USEREXECUTINGSCRIPT='pi'
 REPONAME='pi-ap'
 
+# Ensure all hostnames are UNIQUE:
+# If using "pi-ap" to configure other APs on your LAN change default hostname by at least incrementing number in name ie: "3bplus-ap2" as you add them
 OURHOSTNAME='3bplus-ap1'
 OURDOMAIN='f1linux.com'
 
@@ -30,8 +32,8 @@ SSIDNAME='RPI-AP1'
 # Password must be min 8 characters and must NOT include single quotes- these are used as delimiters to encase the password so other special characters do not expand in bash
 APWPA2PASSWD='cH4nG3M3'
 
-# Default port systemd-resolved start on '5353' collides with dnsmasq (which does the DHCP for WiFi clients) which also wants '5353' as its default port.
-# If you do not like the default value of 5454 feel free to set it to a different one:
+# Default port systemd-resolved start on '5353' collides with dnsmasq (which does DHCP for WiFi clients) which also uses '5353' as its default port.
+# I chose 5454 but that number is arbitrary: if you have another process which listens on port 5454 feel free to change it to a different value
 DNSMASQPORT='5454'
 
 
@@ -91,6 +93,9 @@ DHCPLEASETIMEHOURS='12'
 #	ap-config.sh
 # They were moved there because dependent script "packages.sh" must execute BEFORE
 # "ap-config.sh" to install "sipcalc" which used in those variables for ip calculations
+
+# "scripts" seemed a sensible enough name for the root users scripts directory but the name is arbitrary and can be set to some other name:
+PATHSCRIPTSROOT='scripts'
 PATHSCRIPTS="/home/$(echo $USEREXECUTINGSCRIPT)/$(echo $REPONAME)"
 PATHLOGSCRIPTS="/home/$(echo $USEREXECUTINGSCRIPT)/$(echo $REPONAME)/logs"
 
