@@ -4,7 +4,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.07.00
+# Version:	01.10.00
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -52,7 +52,52 @@ if [ ! -d $PATHLOGSCRIPTS ]; then
 fi
 
 
+if [ ! -d /root/$PATHSCRIPTSROOT ]; then
+        mkdir /root/$PATHSCRIPTSROOT
+        chmod 770 /root/$PATHSCRIPTSROOT
+        chown root:root /root/$PATHSCRIPTSROOT
+fi
+
+
+echo
+echo "$(tput setaf 5)******$(tput sgr 0) $(tput setaf 3)PRE$(tput sgr 0)-$(tput setaf 5)Configuration ******$(tput sgr 0)"
+echo
+echo "Default Config $(tput setaf 1)*BEFORE*$(tput sgr 0) host shaped by pi-ap scripts:"
+echo
+
+echo
+echo "NETWORKING:"
+echo "##########"
+echo "$(tput setaf 9)eth0:$(tput sgr 0)"
+ip addr list|grep eth0|awk 'FNR==2'|awk '{print $2}'
+ip -6 addr list|grep eth0|awk 'FNR==2'|awk '{print $2}'
+echo
+echo "$(tput setaf 9)wlan0:$(tput sgr 0)"
+ip addr list|grep wlan0|awk 'FNR==2'|awk '{print $2}'
+ip -6 addr list|grep wlan0|awk 'FNR==2'|awk '{print $2}'
+echo
+
+echo "WIRELESS:"
+echo "##########"
+echo "Output of: $(tput setaf 9)iw dev wlan0 info$(tput sgr 0)"
+iw dev wlan0 info
+echo
+echo "Output of: $(tput setaf 9)iwconfig wlan0$(tput sgr 0)"
+iwconfig wlan0
+echo
+
+
+
 cd $PATHSCRIPTS
+
+
+echo
+echo "$(tput setaf 5)****** CONFIGURE HOST TIMEKEEPING:  ******$(tput sgr 0)"
+echo
+
+time ./timedate.sh 2>> $PATHLOGSCRIPTS/install.log
+
+
 
 
 echo
@@ -62,12 +107,6 @@ echo 'Elapsed Time for Package Management will be printed after this section com
 echo
 
 time ./packages.sh 2>> $PATHLOGSCRIPTS/install.log
-
-
-
-echo "$(tput setaf 4)If packet count does not increment for the rule- proving its not matching- check log using following command:$(tput sgr 0)"
-echo "          'sudo tail -fn 100 /var/log/kern.log'           "
-echo
 
 
 
@@ -99,25 +138,29 @@ echo
 
 
 echo
-echo "$(tput setaf 5)****** USB Customizations ******$(tput sgr 0)"
+echo "$(tput setaf 5)****** CHANGE HOSTNAME: ******$(tput sgr 0)"
 echo
 
-echo
-echo 'Disable USB Autosuspend:'
-echo
-echo
-echo 'Output of: cat /sys/module/usbcore/parameters/autosuspend'
-echo "Value of '2' = USB Autosuspend $(tput setaf 1)ENABLED$(tput sgr 0)"
-echo
-cat /sys/module/usbcore/parameters/autosuspend
+./hostname.sh 2>> $PATHLOGSCRIPTS/install.log
 
-./usb-customizations.sh 2>> $PATHLOGSCRIPTS/install.log
 
-cd $PATHSCRIPTSROOT
-./usb-autosuspend-disable.sh
 
-# Return to the repo install directory after executing script created by Here-Doc:
-cd $PATHSCRIPTS
+
+echo
+echo "$(tput setaf 5)****** Create Customized Login Messages: ******$(tput sgr 0)"
+echo
+
+./login-messages.sh 2>> $PATHLOGSCRIPTS/install.log
+
+
+
+
+echo
+echo "$(tput setaf 5)****** Power Management: Disable ******$(tput sgr 0)"
+echo
+echo "Unless a device BOTH has a battery and a driver to support Power Mgmnt it is unnecessary and only breaks things"
+
+./service-pwr-mgmnt-disable.sh 2>> $PATHLOGSCRIPTS/install.log
 
 
 
@@ -230,6 +273,34 @@ echo
 ufw show user-rules
 echo
 
+
+
+echo
+echo "$(tput setaf 5)******$(tput sgr 0) $(tput setaf 3)POST$(tput sgr 0)-$(tput setaf 5)Configuration ******$(tput sgr 0)"
+echo
+echo "Config $(tput setaf 1)*AFTER*$(tput sgr 0) host shaped by pi-ap scripts:"
+echo
+
+echo
+echo "NETWORKING:"
+echo "##########"
+echo "$(tput setaf 9)eth0:$(tput sgr 0)"
+ip addr list|grep eth0|awk 'FNR==2'|awk '{print $2}'
+ip -6 addr list|grep eth0|awk 'FNR==2'|awk '{print $2}'
+echo
+echo "$(tput setaf 9)wlan0:$(tput sgr 0)"
+ip addr list|grep wlan0|awk 'FNR==2'|awk '{print $2}'
+ip -6 addr list|grep wlan0|awk 'FNR==2'|awk '{print $2}'
+echo
+
+echo "WIRELESS:"
+echo "##########"
+echo "Output of: $(tput setaf 9)iw dev wlan0 info$(tput sgr 0)"
+iw dev wlan0 info
+echo
+echo "Output of: $(tput setaf 9)iwconfig wlan0$(tput sgr 0)"
+iwconfig wlan0
+echo
 
 
 
