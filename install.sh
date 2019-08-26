@@ -86,7 +86,7 @@ echo "Output of: $(tput setaf 9)iwconfig wlan0$(tput sgr 0)"
 iwconfig wlan0
 echo
 
-
+sleep 5
 
 cd $PATHSCRIPTS
 
@@ -95,7 +95,7 @@ echo
 echo "$(tput setaf 5)****** CONFIGURE HOST TIMEKEEPING:  ******$(tput sgr 0)"
 echo
 
-time ./timedate.sh 2>> $PATHLOGSCRIPTS/install.log
+./timedate.sh 2>> $PATHLOGSCRIPTS/install.log
 
 
 
@@ -207,39 +207,33 @@ echo
 echo "$(tput setaf 4)Troubleshooting: Show Key Config Files:$(tput sgr 0)"
 echo
 
-echo "Show $(tput setaf 4)/etc/dnsmasq.conf$(tput sgr 0)"
+echo "Show $(tput setaf 9)/etc/dnsmasq.conf$(tput sgr 0)"
 echo
 cat /etc/dnsmasq.conf | grep "^[^#]"
 echo
 echo
 
-echo "Show $(tput setaf 4)/etc/dhcpcd.conf$(tput sgr 0)"
+echo "Show $(tput setaf 9)/etc/dhcpcd.conf$(tput sgr 0)"
 echo
 cat /etc/dhcpcd.conf | grep "^[^#]"
 echo
 echo
 
-echo "Show $(tput setaf 4)/etc/hostapd/hostapd.conf$(tput sgr 0)"
+echo "Show $(tput setaf 9)/etc/hostapd/hostapd.conf$(tput sgr 0)"
 echo
 cat /etc/hostapd/hostapd.conf | grep "^[^#]"
 echo
 echo
 
-echo "Check below feedback from $(tput setaf 4)rfkill list$(tput sgr 0) to determine if any interfaces register a hardblock"
+echo "Check below feedback from $(tput setaf 9)rfkill list$(tput sgr 0) to determine if any interfaces register a hardblock"
 echo
 rfkill list
 echo
 echo
 
 
-echo "Show $(tput setaf 4)systemd-networkd$(tput sgr 0) managed connections: $(tput setaf 4)networkctl list$(tput sgr 0) :"
+echo "Show $(tput setaf 9)systemd-networkd$(tput sgr 0) managed connections: $(tput setaf 4)networkctl list$(tput sgr 0) :"
 networkctl list
-echo
-echo
-
-echo 'Show Wireless Driver Mode: "cat /etc/modprobe.d/rs9113.conf" :'
-echo 'Expected value is "6" - A value of "13" (default) breaks WiFi'
-cat /etc/modprobe.d/rs9113.conf
 echo
 echo
 

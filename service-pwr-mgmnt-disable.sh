@@ -32,8 +32,8 @@ Requires=network-online.target
 After=hostapd.service
 
 [Service]
-User=pi
-Group=pi
+User=root
+Group=root
 Type=oneshot
 ExecStart=$PATHSCRIPTS/pwr-mgmnt-wifi-disable.sh
 
@@ -46,5 +46,6 @@ EOF
 chmod 644 /etc/systemd/system/pwr-mgmnt-wifi-disable.service
 
 systemctl enable pwr-mgmnt-wifi-disable.service
+systemctl start pwr-mgmnt-wifi-disable.service
 
 echo "Created: /etc/systemd/system/pwr-mgmnt-wifi-disable.service"

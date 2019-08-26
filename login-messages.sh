@@ -40,6 +40,8 @@ echo
 echo "$(tput setaf 5)Change Pi User Login Password$(tput sgr 0)"
 echo '     sudo su -'
 echo '     passwd pi'
+echo '     After changing password return to pi user shell by executing:'
+echo '     exit'
 echo
 echo '#######################################################################################'
 echo
@@ -50,3 +52,7 @@ echo '##########################################################################
 EOF
 
 chmod 755 /etc/update-motd.d/99-pi-ap
+
+echo
+echo 'Created /etc/update-motd.d/99-pi-ap'
+echo
