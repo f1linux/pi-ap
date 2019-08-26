@@ -2,7 +2,7 @@
  
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.10.00
+# Version:	01.10.01
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -32,8 +32,8 @@ Requires=network-online.target
 After=hostapd.service
 
 [Service]
-User=pi
-Group=pi
+User=root
+Group=root
 Type=oneshot
 ExecStart=$PATHSCRIPTS/pwr-mgmnt-wifi-disable.sh
 
@@ -46,5 +46,6 @@ EOF
 chmod 644 /etc/systemd/system/pwr-mgmnt-wifi-disable.service
 
 systemctl enable pwr-mgmnt-wifi-disable.service
+systemctl start pwr-mgmnt-wifi-disable.service
 
 echo "Created: /etc/systemd/system/pwr-mgmnt-wifi-disable.service"
