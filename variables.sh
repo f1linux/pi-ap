@@ -4,7 +4,7 @@
 
 # pi-ap:	These scripts configure a Raspberry Pi into a wireless Access Point
 # Source:	https://github.com/f1linux/pi-ap
-# Version:	01.10.01
+# Version:	01.10.02
 # License:	GPL 3.0
 
 # Script Author:        Terrence Houlahan Linux & Network Engineer
@@ -48,6 +48,12 @@ DNSRESOLVERIPV42='8.8.4.4'
 DNSRESOLVERIPV61='2001:4860:4860::8888'
 DNSRESOLVERIPV62='2001:4860:4860::8844'
 
+
+# Below variable dependent of course on "ipinfo.io" being contactable. If their service is down disable auto expanding variable and uncomment static version of it:
+WIFIREGULATORYDOMAIN=$(curl --silent ipinfo.io|grep country|awk '{print $2}'|grep -oE "[A-Z][A-Z]")
+#WIFIREGULATORYDOMAIN='GB'
+
+
 # Set channel to a non-overlapping one where possible: 1/6/11 . If a non-overlapping channel is saturated try the next one before using overlapping ones 
 CHANNEL='6'
 
@@ -89,14 +95,11 @@ DHCPLEASETIMEHOURS='12'
 #######################################################################
 ### PLEASE NOTE: ###
 # Although MOST variables are centralized in this file be aware
-# that a subset of self-populating variables live in the file:
-#	ap-config.sh
-# They were moved there because dependent script "packages.sh" must execute BEFORE
-# "ap-config.sh" to install "sipcalc" which used in those variables for ip calculations
+# that a subset of self-populating variables live in:
+#	 ap-config.sh
+# They were moved there because "packages.sh" must execute BEFORE "ap-config.sh" to install "sipcalc" which is a dependency of those variables used for ip calculations
 
 # "scripts" seemed a sensible enough name for the root users scripts directory but the name is arbitrary and can be set to some other name:
 PATHSCRIPTSROOT='scripts'
 PATHSCRIPTS="/home/$(echo $USEREXECUTINGSCRIPT)/$(echo $REPONAME)"
 PATHLOGSCRIPTS="/home/$(echo $USEREXECUTINGSCRIPT)/$(echo $REPONAME)/logs"
-
-WIFIREGULATORYDOMAIN=$(curl --silent ipinfo.io|grep country|awk '{print $2}'|grep -oE [Aa-Zz][Aa-Zz])
